@@ -168,6 +168,7 @@ sptrainingmy.com
 startiix.com
 suaroindustries.com
 superad[0-9]*.com.sg
+superad[0-9]*.com
 susumu.co.jp
 taurustravel.com.my
 thefifthacademy.com
