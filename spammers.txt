@@ -6,7 +6,14 @@ tptradelly.top
 sina.com
 tipsnest.sa.com
 comments@facebookmail.com
-ns.expina.com
+.*expina.com
+gakkipieri.info
+.*darkmahou.org
+philsloan.info
+oneladyguzellik.com
+stafari.com
+.*artofmarketing.academy
+lprehome.com
 tercera.mizday.com
 messages@facebookmail.com
 friends@facebookmail.com
