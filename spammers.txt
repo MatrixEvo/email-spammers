@@ -11,6 +11,7 @@ gakkipieri.info
 .*darkmahou.org
 philsloan.info
 oneladyguzellik.com
+.*.xxx
 stafari.com
 .*artofmarketing.academy
 lprehome.com
