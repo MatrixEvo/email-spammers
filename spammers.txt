@@ -47,6 +47,7 @@ atdsolution.com
 auto.mail.*@accounts.nintendo.com
 avant.com.my
 baisilous.com
+balancestrategies.my
 bb777.org
 berkeleytattoo.com
 betterfit.za.com
@@ -55,6 +56,7 @@ biophilicum.info
 birthdays@facebookmail.com
 blaustudio.de
 blucorus.com
+bodybacknow.my
 bourbonexpert.com
 bradhalllfuel.com
 bsi.net
@@ -148,6 +150,7 @@ groupupdates@facebookmail.com
 gtrade35.net
 gtrade[0-9]+.com
 guidehealth.sa.com
+guthealthrenew.my
 gwt-logistics.com
 hamsallail.com
 hcamag.com
@@ -196,10 +199,12 @@ luxial.com
 maccalnlao.top
 mail-smtp.top
 mail.heidelbergae.com
+mail.hzc9906.smtp-avancado.com
 mailbox.com
 mailleadcrm.com
 makehamscoaches.com.au
 marketing@mharvest.com
+masilla.org
 maslm.com.my
 masteventsvt.com
 maxgrip-services.com
@@ -215,6 +220,7 @@ mrsx.com
 myappletraining.info
 myasiatraining.com
 mygtrade[0-9]+.com
+mynervesback.my
 myskillstraining.info
 myskillstraining.net
 mytrainingmalaysia.com
@@ -224,6 +230,7 @@ nesbru.vgs.no
 networkskillsmy.com
 networkskillsmy.info
 newrise-learning.org
+news.purecarepath.com
 nonstopearnings.com
 notification@facebookmail.com
 novaconds.de
@@ -266,6 +273,7 @@ qiyesuiwutongzhi.cn
 qiyetonzhimail.cn
 redprofitsreport.com
 referindr.com
+rememberthefilter.com
 reminders@facebookmail.com
 research-ag.com
 revue21.fr
@@ -315,10 +323,12 @@ sr.net
 stafari.com
 startiix.com
 stories@facebookmail.com
+strategiescare.my
 suaroindustries.com
 sublue.com
 superad[0-9]*.com
 superad[0-9]*.com.sg
+sustainablelabs.my
 susumu.co.jp
 talentsbuilders.com
 talenzwise.com
@@ -377,6 +387,7 @@ wrai5e.cafeon.cn
 xfzi.cn
 yenuni.com.my
 yfuvmsw.com
+your.heatlhylifesupplies.com
 yzqiqiu.com
 zagb.info
 zubedy.com
