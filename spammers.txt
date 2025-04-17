@@ -34,6 +34,7 @@ ana.co.jp
 apexmasteryacademy.com
 appcontacta.online
 applhz.cn
+aqfy.com
 ar-tech.co.kr
 ariva.com.ph
 arp.net
@@ -84,6 +85,7 @@ div2-mgmt.biz
 div[0-9]*-mgmt.biz
 divansells.com.es
 dividenddrivepro.com
+dlo12.cn
 dotws.net
 doulos.com
 drdotre.de
@@ -92,7 +94,9 @@ dvnehmp.com
 dyhoifre.cn
 e-rehdainstitute.info
 ecolink-environment.com
+edm.sincere-logistics.com
 edm.taitra.org.tw
+edu4you.top
 educmastery.com
 edzvcx.homes
 elearningss.com
@@ -107,6 +111,7 @@ eversafeuniversal.com
 excelacademy.my
 expitris.info
 expitrisworldwide.com
+exploremore8.top
 export[0-9]+.com
 ezilearn[0-9]+.com
 fazlee.comfori@gmail.com
@@ -156,7 +161,10 @@ ideapro-logix.com.my
 ignitequadcities.com
 ilnet-telecoms.td
 incomesolutionstoday.com
+info.232ca.fun
+info.233cs.asia
 info.liuyiba.top
+info.sensiwayy.asia
 ipa-training.com
 ipa.com.my
 ipaemail.com
@@ -179,7 +187,9 @@ logicstraining.com
 lprehome.com
 lsi-cooler.co.jp
 luxial.com
+maccalnlao.top
 mail-smtp.top
+mail.heidelbergae.com
 mailbox.com
 mailleadcrm.com
 makehamscoaches.com.au
@@ -236,7 +246,9 @@ prolearnersmy.com
 proreforms.uz
 proskillsnetwork.com
 pursuepg.com.my
+pvsb-vn.cc
 qidinin.com
+qiyebutiemail.cn
 qiyebutietongzhi.cn
 qiyebutietz.cn
 qiyemailtongzhi.cn
@@ -300,6 +312,7 @@ talenzwise.com
 tasskup.com
 taurustravel.com.my
 tech-hard.art
+tech123.top
 tedswoodshed.shop
 tercera.mizday.com
 test.example.com
@@ -326,7 +339,9 @@ trainmeister.com
 trainmeisterasb.com
 trainmode.com.my
 uaoywt.com
+ubia.net
 uni-erfurt.de
+unisional.com
 uniteddefense.info
 unleash-power.com
 uscnm.top
