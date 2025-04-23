@@ -1,4 +1,5 @@
 .*.xxx
+.*.top
 .*artofmarketing.academy
 .*darkmahou.org
 .*expina.com
