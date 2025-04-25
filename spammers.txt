@@ -27,6 +27,8 @@ advisionworld.info
 aepbulletin.com.my
 aepnews.com.my
 aeptraining.com.my
+syri-oil.com
+hardwareshipping.*.com
 africafiles.org
 ah.d.mailin.fr
 ahomeconcept.com
