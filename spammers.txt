@@ -1,5 +1,6 @@
 .*.xxx
 .*.top
+.*.cfd
 .*artofmarketing.academy
 .*darkmahou.org
 .*expina.com
@@ -17,11 +18,13 @@
 9pz.org
 abiro0965@googlegroups.com
 academytrade.net
+comstrain.com
 tonsultores.com
 activelive.sa.com
 activemind.info
 adaeskt.com
 advisionhub.info
+somtstencils.com
 advisionmy.com
 advisionnow.com
 advisionworld.info
