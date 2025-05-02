@@ -10,7 +10,7 @@ cstan[0-9]+.cisb[0-9]+@gmail.com
 csyim[0-9]+@gmail.com
 darrenoh[0-9]+@gmail.com
 dauthonesta@gmail.com
-programotc255@gmail.com
+programotc[0-9]+@gmail.com
 doniiaahadhrr[0-9]+@gmail.com
 brookewallis985@gmail.com
 fatin.ikacademy@gmail.com
