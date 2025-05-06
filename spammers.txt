@@ -40,6 +40,7 @@ sphrd.com
 ilvirtualtraining.com
 edutrainin.com
 skilltrainroom.com
+.*\.it\.com
 exceltrainin.com
 mysptraining.com
 techtrainspec.com
@@ -49,7 +50,6 @@ trainingoers.com
 adaeskt.com
 advisionhub.info
 lassfully.icu
-lpteaim.it.com
 uwzrssada.com
 somtstencils.com
 advisionmy.com
@@ -163,7 +163,6 @@ fazlee.comfori@gmail.com
 featurednews.com
 firsthealthforum.com
 fixxbz.com.my
-flowofwaterwolf.it.com
 fmotyxvo.top
 fms.com
 fourasemah.biz
