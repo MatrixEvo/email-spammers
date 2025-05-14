@@ -1,6 +1,7 @@
 .*.xxx
 .*.top
 .*.cfd
+fimnet.fi
 .*artofmarketing.academy
 .*darkmahou.org
 .*expina.com
