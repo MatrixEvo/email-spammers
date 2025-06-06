@@ -1,6 +1,7 @@
 .*.xxx
 .*.top
 .*.cfd
+.*.shop
 fimnet.fi
 .*artofmarketing.academy
 .*darkmahou.org
