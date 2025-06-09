@@ -3,6 +3,8 @@
 .*.cfd
 .*.shop
 fimnet.fi
+.*.ssctv.net
+.*.ooguy.com
 .*artofmarketing.academy
 .*darkmahou.org
 .*expina.com
