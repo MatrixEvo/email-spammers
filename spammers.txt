@@ -1,6 +1,7 @@
 .*.xxx
 .*.top
 .*.cfd
+.*.cc
 .*.shop
 fimnet.fi
 .*.ssctv.net
