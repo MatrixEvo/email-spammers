@@ -1,7 +1,6 @@
 .*\.cc
 .*\.tn
 .*\.ua
-.*\.de
 .*\.cfd
 .*\.lol
 .*\.click
