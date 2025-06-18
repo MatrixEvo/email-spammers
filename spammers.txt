@@ -164,7 +164,6 @@ exploremore8.top
 export[0-9]+.com
 exportacademy.net
 ezilearn[0-9]+.com
-fazlee.comfori@gmail.com
 featurednews.com
 fimnet.fi
 firsthealthforum.com
@@ -201,7 +200,6 @@ guadalupeaugust.info
 guidehealth.sa.com
 guterparkndberries.shop
 guthealthrenew.my
-guyken83@gmail.com
 gwt-logistics.com
 gyddgc.com
 hamsallail.com
@@ -295,7 +293,6 @@ mharvest.com
 mindzallera.com
 moneylioniul.top
 mrkehoc.com
-mrsanamalgorzata@gmail.com
 mrsx.com
 msa.hinet.net
 mtilegacy.com
