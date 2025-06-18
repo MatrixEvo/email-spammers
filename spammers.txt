@@ -13,6 +13,7 @@
 .*\.top
 .*\.xxx
 .*\.ru
+.*\.cam
 .*91app.com
 .*\.it\.com
 .*artofmarketing.academy
