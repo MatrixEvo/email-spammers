@@ -1,8 +1,13 @@
 .*\.cc
+.*\.tn
+.*\.de
 .*\.cfd
+.*\.click
 .*\.ooguy.com
+.*\.site
 .*\.shop
 .*\.ssctv.net
+.*\.online
 .*\.top
 .*\.xxx
 .*\.ru
