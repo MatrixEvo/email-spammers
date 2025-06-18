@@ -1,7 +1,9 @@
 .*\.cc
 .*\.tn
+.*\.ua
 .*\.de
 .*\.cfd
+.*\.lol
 .*\.click
 .*\.ooguy.com
 .*\.site
@@ -520,5 +522,7 @@ bestdeal95.com
 getbeu.com
 paleohacks.com
 worldrugby.email
-Ubct.melford.co.uk
+ubct.melford.co.uk
 postermywall.com
+bloomthis.co
+thesparkgroup.asia
