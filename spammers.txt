@@ -15,6 +15,7 @@
 .*\.xxx
 .*mei.cc
 dl329.com
+.*gfrp0.com
 .*artofmarketing.academy
 .*darkmahou.org
 .*essentialofbeauty.com
