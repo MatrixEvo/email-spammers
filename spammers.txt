@@ -12,6 +12,7 @@
 .*\.tn
 .*\.top
 .*\.ua
+.*gymfactory.ltd
 .*\.xxx
 .*mei.cc
 dl329.com
