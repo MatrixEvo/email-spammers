@@ -12,6 +12,7 @@
 .*\.tn
 .*\.top
 .*\.ua
+otti.life
 .*gymfactory.ltd
 .*\.xxx
 .*mei.cc
