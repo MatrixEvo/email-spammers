@@ -9,7 +9,6 @@
 .*\.shop
 .*\.site
 .*\.ssctv.net
-.*\.tn
 .*\.top
 .*gymfactory.ltd
 .*\.xxx
