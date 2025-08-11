@@ -14,6 +14,7 @@
 .*\.xxx
 .*mei.cc
 pkypackit.com
+server[0-9]*.cc
 sektmen.com
 dl329.com
 .*skipperoflife.com
