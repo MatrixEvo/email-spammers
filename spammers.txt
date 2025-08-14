@@ -17,6 +17,10 @@ pkypackit.com
 server[0-9]*.cc
 sektmen.com
 dl329.com
+pthirundo.com
+accura.com.ph
+nifty.com
+pioneeriobox.org
 .*skipperoflife.com
 .*bodydesignhacks.com
 consultant.com
