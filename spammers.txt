@@ -10,6 +10,7 @@
 .*\.site
 .*\.ssctv.net
 .*\.top
+skillsproacademy.pro
 .*gymfactory.ltd
 .*\.xxx
 .*mei.cc
