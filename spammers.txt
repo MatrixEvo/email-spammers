@@ -13,6 +13,7 @@
 skillsproacademy.pro
 .*gymfactory.ltd
 .*\.xxx
+yongchenjx.com
 .*mei.cc
 pkypackit.com
 server[0-9]*.cc
