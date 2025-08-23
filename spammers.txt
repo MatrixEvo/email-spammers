@@ -11,6 +11,7 @@
 .*\.ssctv.net
 .*\.top
 skillsproacademy.pro
+service.oizfdse.cn
 .*gymfactory.ltd
 .*\.xxx
 serchwebreview.store
