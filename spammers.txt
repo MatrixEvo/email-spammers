@@ -16,6 +16,7 @@ skillsproacademy.pro
 .*gymfactory.ltd
 .*\.xxx
 serchwebreview.store
+reethvikintl.com
 yongchenjx.com
 .*mei.cc
 pkypackit.com
