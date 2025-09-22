@@ -24,6 +24,7 @@ server[0-9]*.cc
 amazingsafes.com
 sektmen.com
 dl329.com
+egisternova.com
 pthirundo.com
 accura.com.ph
 nifty.com
