@@ -23,6 +23,7 @@ pkypackit.com
 server[0-9]*.cc
 amazingsafes.com
 sektmen.com
+bolthaven.my
 dl329.com
 egisternova.com
 pthirundo.com
