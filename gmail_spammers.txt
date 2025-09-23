@@ -68,5 +68,6 @@ uvnew.u[0-9]+@gmail.com
 whitegrass[0-9]+@gmail.com
 yana.iktraining@gmail.com
 fazlee.comfori@gmail.com
-guyken83@gmail.com
+guyken[0-9]+@gmail.com
 mrsanamalgorzata@gmail.com
+purplehorizon.[0-9]+@gmail.com
