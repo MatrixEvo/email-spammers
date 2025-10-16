@@ -12,6 +12,7 @@
 .*\.top
 skillsproacademy.pro
 .*.oizfdse.cn
+tesrom.com
 .*.akfsktj.cn
 .*gymfactory.ltd
 .*\.xxx
