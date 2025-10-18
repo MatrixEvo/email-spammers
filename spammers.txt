@@ -251,6 +251,7 @@ groupupdates@facebookmail.com
 gtrade35.net
 gtrade36.net
 gtrade[0-9]+.com
+[0-9]+mail.com
 guadalupeaugust.info
 guidehealth.sa.com
 guterparkndberries.shop
