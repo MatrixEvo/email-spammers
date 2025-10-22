@@ -9,6 +9,8 @@
 .*\.shop
 .*\.site
 .*\.ssctv.net
+egrm-llc.com
+ibesrcrap.com
 .*\.top
 skillsproacademy.pro
 .*.oizfdse.cn
