@@ -147,7 +147,6 @@ div2-mgmt.biz
 div[0-9]*-mgmt.biz
 divansells.com.es
 dividenddrivepro.com
-diya.com.my
 dl329.com
 dlo12.cn
 dotws.net
