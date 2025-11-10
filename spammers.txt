@@ -17,6 +17,8 @@
 linux.com
 .*bodydesignhacks.com
 .*darkmahou.org
+ga-in.co.id
+tmssystame.com
 .*essentialofbeauty.com
 .*evergreenyouthsecrets.com
 .*expina.com
