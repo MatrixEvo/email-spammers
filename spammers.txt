@@ -16,6 +16,7 @@
 .*artofmarketing.academy
 linux.com
 .*bodydesignhacks.com
+lesoshoppe.com
 .*darkmahou.org
 ga-in.co.id
 tmssystame.com
