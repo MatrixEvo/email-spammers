@@ -13,6 +13,7 @@
 .*\.ssctv.net
 .*\.top
 .*\.xxx
+ahmedfahmy.com
 .*artofmarketing.academy
 meiela.cn
 unigro.in
