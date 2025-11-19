@@ -14,6 +14,10 @@
 .*\.top
 .*\.xxx
 .*artofmarketing.academy
+meiela.cn
+unigro.in
+avipacinc.com
+centricgrowth.my
 linux.com
 networkskills.info
 yeah.net
