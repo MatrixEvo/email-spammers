@@ -11,6 +11,7 @@
 .*\.shop
 .*\.site
 .*\.ssctv.net
+mehocmw.cn
 .*\.top
 .*\.xxx
 ahmedfahmy.com
