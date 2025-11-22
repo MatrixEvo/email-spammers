@@ -16,6 +16,7 @@ mehocmw.cn
 .*\.xxx
 ahmedfahmy.com
 .*artofmarketing.academy
+lttnet.net
 meiela.cn
 voicente.org
 unigro.in
