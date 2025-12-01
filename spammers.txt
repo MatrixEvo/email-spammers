@@ -12,6 +12,7 @@
 .*\.site
 .*\.ssctv.net
 mehocmw.cn
+luxurioushair4all.com
 .*\.top
 .*\.xxx
 ahmedfahmy.com
