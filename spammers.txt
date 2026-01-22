@@ -461,7 +461,6 @@ server[0-9]*.cc
 service.shyligs.cn
 service4634.cc
 sflooringusa.net
-sgbc.sg
 sgce.us
 sgkls.com
 sharonparq.com
