@@ -12,6 +12,7 @@
 .*\.site
 .*\.ssctv.net
 .*\.top
+ztrshe.com
 .*\.xxx
 .*artofmarketing.academy
 nb-aiyouxi.com
