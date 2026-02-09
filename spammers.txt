@@ -15,6 +15,7 @@
 .*\.xxx
 .*artofmarketing.academy
 nb-aiyouxi.com
+qkvue.com
 axisexhibitions.com
 yeah.net
 economycafe.com
