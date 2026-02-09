@@ -17,6 +17,10 @@
 nb-aiyouxi.com
 axisexhibitions.com
 yeah.net
+economycafe.com
+healthemarkts.com
+dopimextextile.com
+panjunan.com
 .*bodydesignhacks.com
 .*darkmahou.org
 .*essentialofbeauty.com
