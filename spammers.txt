@@ -13,6 +13,7 @@
 .*\.ssctv.net
 .*\.top
 ztrshe.com
+naqukuc.com
 icrc.ac.ir
 .*\.xxx
 sunasia-in.com
