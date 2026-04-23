@@ -15,6 +15,7 @@
 .*\.xxx
 .*artofmarketing.academy
 .*bodydesignhacks.com
+telefonica.net
 .*darkmahou.org
 .*essentialofbeauty.com
 .*evergreenyouthsecrets.com
