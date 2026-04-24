@@ -27,6 +27,7 @@ telefonica.net
 .*healthessentialera.com
 .*healthylifeestyle.com
 .*info4admins.com
+jcshrimp.com
 .*larkbury.com
 .*medassistance24.com
 .*mei.cc
