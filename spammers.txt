@@ -18,6 +18,7 @@ alarts-noticationsy.*
 .*artofmarketing.academy
 .*bodydesignhacks.com
 telefonica.net
+bhgviridis.com
 .*darkmahou.org
 .*essentialofbeauty.com
 .*evergreenyouthsecrets.com
