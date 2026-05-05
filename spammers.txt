@@ -12,6 +12,8 @@
 .*\.site
 .*\.ssctv.net
 .*\.top
+depec.es
+alarts-noticationsy.*
 .*\.xxx
 .*artofmarketing.academy
 .*bodydesignhacks.com
