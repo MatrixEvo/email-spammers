@@ -5,6 +5,7 @@
 .*\.cfd
 .*\.click
 .*\.it\.com
+petrofestme.com
 .*\.lol
 .*\.online
 .*\.ooguy.com
