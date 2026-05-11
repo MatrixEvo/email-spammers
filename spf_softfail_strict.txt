@@ -4,4 +4,3 @@ maybank.com.my
 grab.com
 linkedin.com
 icloud.com
-gmail.com
