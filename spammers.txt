@@ -18,6 +18,7 @@ alarts-noticationsy.*
 .*\.xxx
 .*artofmarketing.academy
 .*bodydesignhacks.com
+bslhose.com
 telefonica.net
 bhgviridis.com
 .*darkmahou.org
