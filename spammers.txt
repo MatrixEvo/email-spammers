@@ -14,6 +14,8 @@ petrofestme.com
 .*\.ssctv.net
 .*\.top
 depec.es
+zainugroup.com
+njshicai.com
 alarts-noticationsy.*
 .*\.xxx
 .*artofmarketing.academy
