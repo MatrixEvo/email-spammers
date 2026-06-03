@@ -22,6 +22,7 @@ alarts-noticationsy.*
 .*bodydesignhacks.com
 bslhose.com
 telefonica.net
+subito.it
 foreplate.com
 bhgviridis.com
 .*darkmahou.org
