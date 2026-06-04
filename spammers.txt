@@ -20,6 +20,7 @@ alarts-noticationsy.*
 .*\.xxx
 .*artofmarketing.academy
 .*bodydesignhacks.com
+macrohomegroup.ae
 ailinsofa.com
 ciaposports.com
 cn-ltd-kysport.com
