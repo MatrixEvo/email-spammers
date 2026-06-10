@@ -12,6 +12,7 @@ petrofestme.com
 .*\.shop
 .*\.site
 .*\.ssctv.net
+grinsights.com
 .*\.top
 depec.es
 zainugroup.com
