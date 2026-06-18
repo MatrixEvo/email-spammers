@@ -23,6 +23,7 @@ alarts-noticationsy.*
 .*bodydesignhacks.com
 macrohomegroup.ae
 bigcokr.com
+.*\.totaracloud.com
 ailinsofa.com
 .*\.info
 ciaposports.com
