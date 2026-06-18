@@ -22,6 +22,7 @@ alarts-noticationsy.*
 .*artofmarketing.academy
 .*bodydesignhacks.com
 macrohomegroup.ae
+bigcokr.com
 ailinsofa.com
 .*\.info
 ciaposports.com
