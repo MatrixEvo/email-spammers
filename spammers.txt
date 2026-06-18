@@ -9,6 +9,7 @@ petrofestme.com
 .*\.lol
 .*\.online
 .*\.ooguy.com
+apps-iqiyisports.com
 .*\.shop
 .*\.site
 .*\.ssctv.net
