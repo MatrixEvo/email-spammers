@@ -26,7 +26,6 @@ macrohomegroup.ae
 bigcokr.com
 .*\.totaracloud.com
 ailinsofa.com
-.*\.info
 ciaposports.com
 cn-ltd-kysport.com
 daqijiang.com.cn
