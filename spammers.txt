@@ -10,6 +10,7 @@ petrofestme.com
 .*\.online
 .*\.ooguy.com
 apps-iqiyisports.com
+smartpathsoman.com
 .*\.shop
 .*\.site
 .*\.ssctv.net
