@@ -5,6 +5,9 @@
 .*\.cfd
 .*\.click
 .*\.it\.com
+quadrum.mx
+smell.zh-online-canada28.com
+leier.sk
 petrofestme.com
 .*\.lol
 .*\.online
