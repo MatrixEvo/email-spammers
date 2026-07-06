@@ -20,6 +20,7 @@ depec.es
 zainugroup.com
 njshicai.com
 alarts-noticationsy.*
+cshzcw.com
 .*\.xxx
 .*artofmarketing.academy
 .*bodydesignhacks.com
