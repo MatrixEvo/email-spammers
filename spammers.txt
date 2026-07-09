@@ -25,6 +25,7 @@ njshicai.com
 alarts-noticationsy.*
 cshzcw.com
 .*\.xxx
+sepideprint.com
 .*artofmarketing.academy
 .*bodydesignhacks.com
 macrohomegroup.ae
