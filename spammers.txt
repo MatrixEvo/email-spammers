@@ -18,6 +18,7 @@ smartpathsoman.com
 .*\.site
 .*\.ssctv.net
 grinsights.com
+riverhaul.com
 .*\.top
 porschebase.com
 depec.es
