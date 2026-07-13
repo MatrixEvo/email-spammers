@@ -1,0 +1,7 @@
+# Domain and allowed IPs for backscatter protection
+# Format: <domain> <ip1> <ip2> ...
+singmarmarine.com 118.107.238.162
+mountaintorq.com 192.82.60.201
+my-psb.com 103.197.58.224
+ogsupplies.com 103.21.183.201
+ikonik.com.my 58.84.43.191
