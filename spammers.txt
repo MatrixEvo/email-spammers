@@ -19,6 +19,7 @@ smartpathsoman.com
 .*\.ssctv.net
 grinsights.com
 riverhaul.com
+emailsolusys.com.br
 .*\.top
 porschebase.com
 depec.es
