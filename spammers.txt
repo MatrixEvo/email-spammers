@@ -15,6 +15,7 @@ petrofestme.com
 apps-iqiyisports.com
 smartpathsoman.com
 baildarkhwast.info
+gingsensz.com
 .*\.shop
 .*\.site
 .*\.ssctv.net
