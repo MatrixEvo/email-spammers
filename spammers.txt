@@ -17,6 +17,7 @@ myclearance-com.my
 smartpathsoman.com
 baildarkhwast.info
 gingsensz.com
+kamalmedtech.com
 .*\.shop
 .*\.site
 .*\.ssctv.net
