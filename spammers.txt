@@ -18,6 +18,8 @@ smartpathsoman.com
 baildarkhwast.info
 gingsensz.com
 kamalmedtech.com
+partnership.stcompholdings.com
+stcompholdings.com
 .*\.shop
 .*\.site
 .*\.ssctv.net
