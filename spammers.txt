@@ -23,6 +23,7 @@ zoetell.com
 kamalmedtech.com
 partnership.stcompholdings.com
 stcompholdings.com
+.*\.stcompholdings.com
 .*\.shop
 .*\.site
 .*\.ssctv.net
