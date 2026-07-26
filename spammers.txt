@@ -10,6 +10,8 @@ smell.zh-online-canada28.com
 leier.sk
 petrofestme.com
 .*\.lol
+local-host.gay
+.*\.gay
 .*\.online
 .*\.ooguy.com
 apps-iqiyisports.com
