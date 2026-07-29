@@ -14,6 +14,8 @@ petrofestme.com
 .*\.lol
 local-host.gay
 .*\.gay
+strato-9d.com
+lucentra-2.com
 .*\.online
 .*\.ooguy.com
 apps-iqiyisports.com
