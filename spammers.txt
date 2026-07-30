@@ -16,8 +16,11 @@ local-host.gay
 .*\.gay
 strato-9d.com
 lucentra-2.com
+bankofbanks.org
 .*\.online
+distributionfilescenter.us
 .*\.ooguy.com
+newhevan.com
 apps-iqiyisports.com
 kamalmedtech.com
 myclearance-com.my
