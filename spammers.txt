@@ -12,6 +12,7 @@ bpo.publicvm.com
 .*\.publicvm.com
 petrofestme.com
 .*\.lol
+follow-suggestions@mail.instagram.com
 local-host.gay
 .*\.gay
 strato-9d.com
