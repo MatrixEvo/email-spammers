@@ -13,6 +13,7 @@ olloum.com
 .*\.publicvm.com
 petrofestme.com
 .*\.lol
+publiccrane.com.my
 follow-suggestions@mail.instagram.com
 local-host.gay
 .*\.gay
