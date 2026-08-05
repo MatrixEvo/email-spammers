@@ -17,6 +17,7 @@ follow-suggestions@mail.instagram.com
 local-host.gay
 .*\.gay
 vbasem.com
+akihiro-hasegawa.com
 mace-hermetic.com
 strato-9d.com
 lucentra-2.com
