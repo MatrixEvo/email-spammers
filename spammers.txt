@@ -9,6 +9,7 @@ quadrum.mx
 smell.zh-online-canada28.com
 leier.sk
 bpo.publicvm.com
+sesscp.org
 olloum.com
 .*\.publicvm.com
 petrofestme.com
