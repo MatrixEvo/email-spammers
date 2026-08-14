@@ -19,6 +19,8 @@ hrskillsnetwork.info
 geraldpaxhq.com
 pentawise.com.my
 mzgrouphq.com
+dolwvy.martinstudioofphotography.com
+.*\.martinstudioofphotography.com
 ainetwork-training.com
 bpo.publicvm.com
 sesscp.org
