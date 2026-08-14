@@ -4,10 +4,16 @@
 .*\.cam
 .*\.cfd
 .*\.click
+myskillsnetworkacademy.info
+myskillstraining.pro
 .*\.it\.com
 quadrum.mx
 smell.zh-online-canada28.com
 leier.sk
+jobstore.com
+integrity2u.my
+mharvest.com
+hrskillsnetwork.info
 bpo.publicvm.com
 sesscp.org
 olloum.com
@@ -432,7 +438,7 @@ mailer.petroedgeoilandgastraining.com
 mailleadcrm.com
 makehamscoaches.com.au
 mambaholster.*.com
-marketing@mharvest.com
+marketing@
 masilla.org
 masirid.com
 maslm.com.my
