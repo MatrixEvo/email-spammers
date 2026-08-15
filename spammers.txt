@@ -4,6 +4,7 @@
 .*\.cam
 .*\.cfd
 .*\.click
+zsidokivalosagok.hu
 myskillsnetworkacademy.info
 myskillstraining.pro
 .*\.it\.com
