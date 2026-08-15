@@ -11,6 +11,9 @@ quadrum.mx
 tendernews.com
 smell.zh-online-canada28.com
 news.wowma.jp
+mktg.benchmarkemail.com
+.*\.benchmarkemail.com
+benchmarkemail.com
 wowma.jp
 leier.sk
 messages-noreply@linkedin.com
