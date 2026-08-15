@@ -12,6 +12,8 @@ smell.zh-online-canada28.com
 leier.sk
 jobstore.com
 email.mckinsey.com
+corn.cnzh-178.com
+.*\.cnzh-178.com
 buzzfeed.com
 emails.tasty.co
 tasty.co
