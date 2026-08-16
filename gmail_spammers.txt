@@ -9,6 +9,7 @@ copperc[0-9]+@gmail.com
 askfood8@gmail.com
 askfood[0-9]+@gmail.com
 cstan[0-9]+.cisb[0-9]+@gmail.com
+webapppr.info
 azizbilal.seo@gmail.com
 csyim[0-9]+@gmail.com
 tradefinance.asif@gmail.com
