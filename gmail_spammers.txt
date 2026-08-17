@@ -14,6 +14,8 @@ azizbilal.seo@gmail.com
 prwpto.theguesthousebb.com
 .*\.theguesthousebb.com
 theguesthousebb.com
+hracademy2013@gmail.com
+hracademy[0-9]+@gmail.com
 csyim[0-9]+@gmail.com
 tradefinance.asif@gmail.com
 vvareld@gmail.com
