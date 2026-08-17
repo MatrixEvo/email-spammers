@@ -29,6 +29,8 @@ yyc.my
 trellix.com
 .*\.trellix.com
 geninustx.com
+hkhonch.cn
+hkhonch.top
 aktrainingacademy.com
 submaintain.com
 .*\.benchmarkemail.com
