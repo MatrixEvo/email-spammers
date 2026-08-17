@@ -20,6 +20,7 @@ e2consulting.com.my
 mktg.benchmarkemail.com
 pravilnoeradio.ru
 geninustx.com
+aktrainingacademy.com
 submaintain.com
 .*\.benchmarkemail.com
 benchmarkemail.com
