@@ -20,6 +20,10 @@ e2consulting.com.my
 mktg.benchmarkemail.com
 pravilnoeradio.ru
 inventiconhub.com
+interest.trellix.com
+arrosoft.com
+trellix.com
+.*\.trellix.com
 geninustx.com
 aktrainingacademy.com
 submaintain.com
