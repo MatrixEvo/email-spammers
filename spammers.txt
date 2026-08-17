@@ -17,6 +17,7 @@ us-docusign.com
 mktg.benchmarkemail.com
 .*\.benchmarkemail.com
 benchmarkemail.com
+germania.com.ar
 wowma.jp
 leier.sk
 messages-noreply@linkedin.com
