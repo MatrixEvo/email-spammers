@@ -16,6 +16,8 @@ tendernews.com
 smell.zh-online-canada28.com
 cpcu.com
 customerfeedbackep@huawei.com
+hkhonch.com
+hkhonch\..*
 intertradingllc.com
 carriera.com.my
 topsechzs.cn
