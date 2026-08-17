@@ -16,6 +16,7 @@ prwpto.theguesthousebb.com
 studio42dotcom@gmail.com
 theguesthousebb.com
 hracademy2013@gmail.com
+alaa.quadracasa@gmail.com
 andyfrom28@gmail.com
 hracademy[0-9]+@gmail.com
 worldjin3196@gmail.com
