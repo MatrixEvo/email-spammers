@@ -23,6 +23,7 @@ pravilnoeradio.ru
 inventiconhub.com
 interest.trellix.com
 arrosoft.com
+yyc.my
 trellix.com
 .*\.trellix.com
 geninustx.com
