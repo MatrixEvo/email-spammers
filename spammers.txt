@@ -22,6 +22,7 @@ geninustx.com
 submaintain.com
 .*\.benchmarkemail.com
 benchmarkemail.com
+cmtsp.com.sg
 webapppr.info
 germania.com.ar
 freshupskillshq.com
