@@ -29,6 +29,7 @@ jpareport.com
 168moyu.com
 aseanevents.com
 freightamigo.com.hk
+tesconint.com
 ffjx.com
 .*\.168moyu.com
 whileone.in
