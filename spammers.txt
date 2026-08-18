@@ -15,6 +15,11 @@ quadrum.mx
 tendernews.com
 smell.zh-online-canada28.com
 lemonade.168moyu.com
+jcmex.com
+mail.theluxenomad.com
+theluxenomad.com
+.*\.theluxenomad.com
+thechannelco.com
 168moyu.com
 .*\.168moyu.com
 whileone.in
@@ -23,6 +28,7 @@ smartcompany.com.au
 beyondsoftapac.com
 exigenceio.com
 cpcu.com
+cfrontier.com
 newsletter.nero.com
 radware.com
 idcresearchmarket.com
