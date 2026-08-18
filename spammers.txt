@@ -21,6 +21,8 @@ customerfeedbackep@huawei.com
 pr.pouchuk.com
 .*.pouchuk.com
 pouchuk.com
+imtrade.sg
+intentmodes.com
 event.gitexafrica.com
 .*.gitexafrica.com
 fivetran.com
