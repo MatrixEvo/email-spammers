@@ -19,6 +19,7 @@ jcmex.com
 mail.theluxenomad.com
 theluxenomad.com
 .*\.theluxenomad.com
+aepupdates.com.my
 thechannelco.com
 168moyu.com
 .*\.168moyu.com
@@ -26,6 +27,8 @@ whileone.in
 saglobal.com
 smartcompany.com.au
 beyondsoftapac.com
+vistage.com.my
+closerstillmedia.com
 exigenceio.com
 cpcu.com
 cfrontier.com
