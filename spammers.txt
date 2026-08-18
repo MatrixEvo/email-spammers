@@ -23,6 +23,7 @@ pr.pouchuk.com
 pouchuk.com
 event.gitexafrica.com
 .*.gitexafrica.com
+fivetran.com
 gitexafrica.com
 uhoptech.com
 it-devision.ru
