@@ -17,6 +17,8 @@ smell.zh-online-canada28.com
 lemonade.168moyu.com
 168moyu.com
 .*\.168moyu.com
+whileone.in
+saglobal.com
 smartcompany.com.au
 beyondsoftapac.com
 exigenceio.com
