@@ -11,10 +11,12 @@ email.aixenergy.com
 aixenergy.com
 .*\.it\.com
 bizrevtrainings.com
+jwfconsol.org
 testgorilla.com
 quadrum.mx
 tendernews.com
 smell.zh-online-canada28.com
+fusionww.com
 lemonade.168moyu.com
 jcmex.com
 hksmoothroute.com
@@ -26,6 +28,8 @@ notifications-noreply@linkedin.com
 edt.networkworld.com
 mx55.tuhi0b.cn
 .*\.tuhi0b.cn
+mspglobal.com
+am.amtechwebresources.com
 tuhi0b.cn
 .*\.aydinderebeldesi.com
 aydinderebeldesi.com
