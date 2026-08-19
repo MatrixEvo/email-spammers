@@ -6,7 +6,11 @@
 .*\.click
 zsidokivalosagok.hu
 myskillsnetworkacademy.info
+maqxlpw.com
 dornf.com
+modius.com
+knightsbridge.com.my
+iil.com
 cjhwl.com
 myskillstraining.pro
 email.aixenergy.com
@@ -128,7 +132,6 @@ event.gitexafrica.com
 .*.gitexafrica.com
 fivetran.com
 gitexafrica.com
-uhoptech.com
 it-devision.ru
 readworks.org
 hkhonch.com
@@ -247,6 +250,7 @@ kamalmedtech.com
 myclearance-com.my
 smartpathsoman.com
 baildarkhwast.info
+uhoptech.com
 fmutc.com
 gingsensz.com
 ct-bio.co
