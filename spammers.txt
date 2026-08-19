@@ -16,6 +16,7 @@ tendernews.com
 smell.zh-online-canada28.com
 lemonade.168moyu.com
 jcmex.com
+apextechit.net
 mail.theluxenomad.com
 theluxenomad.com
 elearningminds.com
@@ -23,6 +24,7 @@ impresstraining.com
 .*\.theluxenomad.com
 holightoptic.com
 aepupdates.com.my
+mepushes.com
 knowledgecom.tech
 agriusit.com
 thechannelco.com
