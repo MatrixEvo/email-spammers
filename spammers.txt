@@ -21,6 +21,9 @@ megajatiacademy.com
 corporatetraining.my
 fusionww.com
 the-young-titans.com
+agile.agileglobalbook.com
+.*.agileglobalbook.com
+agileglobalbook.com
 lemonade.168moyu.com
 jcmex.com
 hksmoothroute.com
