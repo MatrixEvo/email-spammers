@@ -19,9 +19,15 @@ jcmex.com
 hksmoothroute.com
 yue-yang.cn
 dzgfea.aydinderebeldesi.com
+notifications-noreply@linkedin.com
+edt.networkworld.com
+mx55.tuhi0b.cn
+.*\.tuhi0b.cn
+tuhi0b.cn
 .*\.aydinderebeldesi.com
 aydinderebeldesi.com
 apextechit.net
+mexaexport.com
 mail.theluxenomad.com
 wtyij.com
 theluxenomad.com
