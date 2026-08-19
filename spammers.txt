@@ -11,6 +11,7 @@ email.aixenergy.com
 aixenergy.com
 .*\.it\.com
 bizrevtrainings.com
+testgorilla.com
 quadrum.mx
 tendernews.com
 smell.zh-online-canada28.com
@@ -18,6 +19,8 @@ lemonade.168moyu.com
 jcmex.com
 hksmoothroute.com
 yue-yang.cn
+siteground.com
+flintintl.com
 dzgfea.aydinderebeldesi.com
 notifications-noreply@linkedin.com
 edt.networkworld.com
