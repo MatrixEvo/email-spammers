@@ -16,6 +16,11 @@ tendernews.com
 smell.zh-online-canada28.com
 lemonade.168moyu.com
 jcmex.com
+hksmoothroute.com
+yue-yang.cn
+dzgfea.aydinderebeldesi.com
+.*\.aydinderebeldesi.com
+aydinderebeldesi.com
 apextechit.net
 mail.theluxenomad.com
 theluxenomad.com
