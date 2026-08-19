@@ -11,6 +11,7 @@ askfood[0-9]+@gmail.com
 cstan[0-9]+.cisb[0-9]+@gmail.com
 webapppr.info
 azizbilal.seo@gmail.com
+farahmexa23@gmail.com
 prwpto.theguesthousebb.com
 .*\.theguesthousebb.com
 studio42dotcom@gmail.com
