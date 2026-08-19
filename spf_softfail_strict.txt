@@ -9,3 +9,4 @@ advising.hsbc.com
 maybank.com.my
 maybank2u.com.my
 secureki.com
+sc.com
