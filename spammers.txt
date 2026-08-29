@@ -5,6 +5,7 @@
 .*\.cfd
 .*\.click
 zsidokivalosagok.hu
+steelscabinet.com
 myskillsnetworkacademy.info
 maqxlpw.com
 dornf.com
