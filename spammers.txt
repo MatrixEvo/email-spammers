@@ -25,6 +25,7 @@ boncxa.com
 fme.saohoo.com
 .*.saohoo.com
 saohoo.com
+follow-requests@mail.instagram.com
 xmfb.hhcyzk.com
 .*.hhcyzk.com
 hhcyzk.com
