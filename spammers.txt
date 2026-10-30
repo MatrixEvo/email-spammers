@@ -8,6 +8,7 @@
 .*.fumei888.com
 .*.gitexafrica.com
 .*.golfgrowthgroup.com
+interactivebrokers@.*
 .*.gsxrx.com
 .*.happymusichome.com
 .*.happyrb88.com
