@@ -11,7 +11,11 @@
 interactivebrokers@.*
 .*.gsxrx.com
 .*.happymusichome.com
+shyxfdc.com
 .*.happyrb88.com
+zfglt.zrjh-sz.com
+zrjh-sz.com
+.*.zrjh-sz.com
 .*.hhcyzk.com
 .*.imankristiani.com
 .*.land-brand.com
