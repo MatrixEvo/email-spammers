@@ -14,6 +14,8 @@ interactivebrokers@.*
 shyxfdc.com
 .*.happyrb88.com
 zfglt.zrjh-sz.com
+sarewakenergy.my
+hplindia.com
 zrjh-sz.com
 .*.zrjh-sz.com
 .*.hhcyzk.com
