@@ -19,6 +19,9 @@ hplindia.com
 zrjh-sz.com
 .*.zrjh-sz.com
 .*.hhcyzk.com
+erlyp.bylxf.com
+bylxf.com
+.*\.bylxf.com
 .*.imankristiani.com
 .*.land-brand.com
 .*.lutherarthouse.com
