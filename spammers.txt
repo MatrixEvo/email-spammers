@@ -12,6 +12,7 @@ interactivebrokers@.*
 .*.gsxrx.com
 .*.happymusichome.com
 shyxfdc.com
+pikespeakortho.com
 .*.happyrb88.com
 zfglt.zrjh-sz.com
 sarewakenergy.my
