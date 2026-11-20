@@ -1,3 +1,5 @@
+# Strict SPF domains (exact case-insensitive literal domain match, no regex; blocked if SPF != pass)
+# Format: one domain per line; '#' comments (full-line and inline) are supported
 dhl.com
 grab.com
 linkedin.com
