@@ -12,11 +12,13 @@ interactivebrokers@.*
 .*.gsxrx.com
 .*.happymusichome.com
 shyxfdc.com
+sinobestech.com.hk
 pikespeakortho.com
 .*.happyrb88.com
 zfglt.zrjh-sz.com
 sarewakenergy.my
 hplindia.com
+docssssr.sbs
 zrjh-sz.com
 .*.zrjh-sz.com
 .*.hhcyzk.com
