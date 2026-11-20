@@ -1,3 +1,5 @@
+# Blocked inbound client IPs and CIDR subnets
+# Format: one IPv4 address or CIDR per line; '#' comments (full-line and inline) are supported
 103.253.12.160
 103.253.12.161
 103.253.12.162
