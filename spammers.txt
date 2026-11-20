@@ -1155,3 +1155,4 @@ dxzhk.com
 .*\.dxzhk.com
 FromSMBC@.*
 VpassSMBC@.*
+stgy.jsp@.*
