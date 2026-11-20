@@ -1,3 +1,5 @@
+# Blocked Gmail / free-webmail sender addresses (ERE regex, full-string match, case-insensitive)
+# Format: one email address or regex per line; '#' comments (full-line and inline) are supported
 lucaspokrovskii[0-9]+@gmail.com
 adm[0-9]+.greenvell@gmail.com
 advision[0-9]+@gmail.com
@@ -12,13 +14,10 @@ cstan[0-9]+.cisb[0-9]+@gmail.com
 mohabsaad65@gmail.com
 azizbilal.seo@gmail.com
 farahmexa23@gmail.com
-prwpto.theguesthousebb.com
 v.j.sun2014@gmail.com
 info.aimskills@gmail.com
-.*\.theguesthousebb.com
 studio42dotcom@gmail.com
 a0978516109@gmail.com
-theguesthousebb.com
 hracademy2013@gmail.com
 alaa.quadracasa@gmail.com
 andyfrom28@gmail.com
