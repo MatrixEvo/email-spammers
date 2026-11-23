@@ -14,6 +14,8 @@ interactivebrokers@.*
 .*\.gsxrx.com
 nextpathtechnologies.info
 hush.am
+.*\.jinjiabao.net
+jinjiabao.net
 softwaresuggest.com
 riseflorsolution.com
 hostadvice.com
