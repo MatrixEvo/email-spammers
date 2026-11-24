@@ -4,3 +4,14 @@
 # evil-phish\.top # blocks evil-phish.top and *.evil-phish.top
 domains\.extenders\.click # credential phishing (dekwetoydrift.biz)
 nemaru\.click # credential phishing (ocep.com.br)
+ssl-webpro\.top # IT Support credential phishing (epactunis.com)
+viscachani\.cl # DHL credential phishing (nagacodees.info)
+eager-violet-koala-u5zt5\.sevalla\.storage # IPServerOne quotation phishing (atyafinvest.com)
+web-gateway-26\.web\.app # clickbait spam (bookhe.fr)
+jsdgjt\.com # ANA JP phishing landing (wangzhesha.com)
+zhulintex\.com # ANA JP phishing landing (tianmishiguang.com)
+ntzfmf\.com # ANA JP phishing landing (sucaisousou.com)
+aganshuodiao\.com # ANA JP phishing landing (rjhjcl.com)
+nb-wd\.com # ANA JP phishing landing (tenyale-lock.com)
+vodacious\.com # ANA JP phishing landing (shinelace.com)
+
