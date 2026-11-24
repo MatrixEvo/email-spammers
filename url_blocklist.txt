@@ -1,5 +1,6 @@
-# Blocked phishing/spam domains found in email body URLs (ERE regex, full-string host match, case-insensitive)
-# Format: one domain or host regex per line; '#' comments (full-line and inline) are supported
+# Blocked phishing/spam domains found in email body URLs (ERE regex, case-insensitive)
+# Format: one domain or host regex per line (auto-matches main domain + all subdomains); '#' comments supported
 # Example:
-# evil-phish.top # confirmed Japanese Vpass phishing link
-# .*\.bad-phish\.cfd
+# evil-phish\.top # blocks evil-phish.top and *.evil-phish.top
+domains\.extenders\.click # credential phishing (dekwetoydrift.biz)
+nemaru\.click # credential phishing (ocep.com.br)
