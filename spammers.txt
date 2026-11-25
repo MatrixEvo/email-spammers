@@ -1076,6 +1076,13 @@ bookhe.fr # clickbait spam (web-gateway-26.web.app)
 jnbestone.cn # unsolicited pipeline machine spam
 kalmerens.info # DHL credential phishing (viscachani.cl)
 sjpfitness.com # fake RFQ credential phishing (track.pstmrk.it)
+lydasuan.com # Dai-ichi Life JP phishing
+globalgrindes.com # WeTransfer credential phishing (domain-auth.eu.cc)
+skymqster-kr.com # Spanish spoofed-domain credential phishing
+cwwtk.com # Dai-ichi Life JP phishing
+siojt.com # Dai-ichi Life JP phishing
+vhfnq.com # Dai-ichi Life JP phishing
+zxcie.com # Dai-ichi Life JP phishing
 mzllera.com
 szsaykj.com
 gzxhcs.com
