@@ -1,0 +1,2193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMG Blocklist Manager — Local + GitHub Sync</title>
+<style>
+  :root {
+    --bg: #0f141c;
+    --panel: #161d28;
+    --panel-2: #1c2533;
+    --border: #2a3648;
+    --border-hi: #3c4e68;
+    --text: #e6edf6;
+    --muted: #8b9bb4;
+    --accent: #4c9aff;
+    --accent-dim: rgba(76, 154, 255, 0.14);
+    --green: #34d399;
+    --green-dim: rgba(52, 211, 153, 0.14);
+    --amber: #fbbf24;
+    --amber-dim: rgba(251, 191, 36, 0.14);
+    --red: #f87171;
+    --red-dim: rgba(248, 113, 113, 0.14);
+    --purple: #c084fc;
+    --purple-dim: rgba(192, 132, 252, 0.14);
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+    --radius: 8px;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg); color: var(--text);
+    font-family: var(--sans); font-size: 14px; line-height: 1.45;
+    min-height: 100vh;
+  }
+  button, input, textarea, select { font-family: inherit; font-size: inherit; color: inherit; }
+
+  .app { display: flex; flex-direction: column; min-height: 100vh; }
+
+  header {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    padding: 12px 20px; background: var(--panel); border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 20;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand-icon {
+    width: 30px; height: 30px; border-radius: 7px;
+    background: linear-gradient(135deg, #2563eb, #06b6d4);
+    display: grid; place-items: center; font-weight: 700; font-size: 14px; color: #fff;
+  }
+  .brand h1 { margin: 0; font-size: 15px; font-weight: 650; letter-spacing: -0.01em; }
+  .brand .sub { font-size: 12px; color: var(--muted); font-family: var(--mono); }
+  .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 500;
+    border: 1px solid var(--border); background: var(--panel-2); color: var(--muted);
+  }
+  .pill.ok { border-color: rgba(52,211,153,.35); background: var(--green-dim); color: var(--green); }
+  .pill.warn { border-color: rgba(251,191,36,.35); background: var(--amber-dim); color: var(--amber); }
+  .pill.err { border-color: rgba(248,113,113,.35); background: var(--red-dim); color: var(--red); }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; display: inline-block; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    padding: 7px 12px; border-radius: 6px; font-weight: 500; font-size: 13px;
+    border: 1px solid var(--border); background: var(--panel-2); color: var(--text);
+    cursor: pointer; transition: background .12s, border-color .12s, opacity .12s;
+    white-space: nowrap;
+  }
+  .btn:hover:not(:disabled) { background: #243043; border-color: var(--border-hi); }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn.primary { background: #2563eb; border-color: #3b82f6; color: #fff; }
+  .btn.primary:hover:not(:disabled) { background: #1d4ed8; }
+  .btn.success { background: #059669; border-color: #10b981; color: #fff; }
+  .btn.success:hover:not(:disabled) { background: #047857; }
+  .btn.purple { background: #7c3aed; border-color: #8b5cf6; color: #fff; }
+  .btn.purple:hover:not(:disabled) { background: #6d28d9; }
+  .btn.danger { background: transparent; border-color: rgba(248,113,113,.35); color: var(--red); }
+  .btn.danger:hover:not(:disabled) { background: var(--red-dim); }
+  .btn.sm { padding: 4px 8px; font-size: 12px; }
+  .btn.icon { padding: 5px 7px; }
+
+  .tabs-bar {
+    display: flex; align-items: center; gap: 4px; overflow-x: auto;
+    padding: 8px 20px 0; background: var(--panel); border-bottom: 1px solid var(--border);
+  }
+  .tab {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 8px 13px; border: 1px solid transparent; border-bottom: none;
+    border-radius: 7px 7px 0 0; cursor: pointer;
+    background: transparent; color: var(--muted); font-size: 13px; font-weight: 500;
+    font-family: var(--mono); position: relative; bottom: -1px;
+  }
+  .tab:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+  .tab.active {
+    background: var(--bg); color: var(--text);
+    border-color: var(--border); border-bottom-color: var(--bg);
+  }
+  .tab .cnt {
+    font-family: var(--sans); font-size: 11px; padding: 1px 6px; border-radius: 999px;
+    background: var(--panel-2); color: var(--muted);
+  }
+  .tab.active .cnt { background: var(--accent-dim); color: var(--accent); }
+  .tab .dirty-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--amber); display: none; }
+  .tab.dirty .dirty-dot { display: inline-block; }
+
+  main { flex: 1; padding: 18px 20px 40px; max-width: 1360px; width: 100%; margin: 0 auto; }
+
+  .banner {
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    padding: 12px 14px; border-radius: var(--radius); margin-bottom: 14px;
+    background: var(--panel); border: 1px solid var(--border);
+  }
+  .banner .meta { display: flex; flex-direction: column; gap: 3px; }
+  .banner .title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .banner h2 { margin: 0; font-size: 15px; font-family: var(--mono); }
+  .banner p { margin: 0; font-size: 12.5px; color: var(--muted); }
+  .badge {
+    display: inline-flex; align-items: center; padding: 2px 7px; border-radius: 5px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.02em; font-family: var(--mono);
+    border: 1px solid transparent;
+  }
+  .badge.blue { background: var(--accent-dim); color: var(--accent); border-color: rgba(76,154,255,.3); }
+  .badge.green { background: var(--green-dim); color: var(--green); border-color: rgba(52,211,153,.3); }
+  .badge.amber { background: var(--amber-dim); color: var(--amber); border-color: rgba(251,191,36,.3); }
+  .badge.red { background: var(--red-dim); color: var(--red); border-color: rgba(248,113,113,.3); }
+  .badge.purple { background: var(--purple-dim); color: var(--purple); border-color: rgba(192,132,252,.3); }
+
+  .grid-2 { display: grid; grid-template-columns: 1.35fr 1fr; gap: 12px; margin-bottom: 14px; }
+  @media (max-width: 960px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 13px 14px;
+  }
+  .card-title {
+    font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--muted); margin: 0 0 9px; display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .form-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: stretch; }
+  .input {
+    flex: 1; min-width: 140px; padding: 7px 10px; border-radius: 6px;
+    border: 1px solid var(--border); background: var(--bg); color: var(--text);
+    outline: none; transition: border-color .12s;
+  }
+  .input.mono { font-family: var(--mono); font-size: 13px; }
+  .input:focus { border-color: var(--accent); }
+  .input::placeholder { color: #5b6b82; }
+
+  .hint-msg { margin-top: 7px; font-size: 12px; min-height: 18px; }
+  .hint-msg.ok { color: var(--green); }
+  .hint-msg.warn { color: var(--amber); }
+  .hint-msg.err { color: var(--red); }
+  .hint-msg.muted { color: var(--muted); }
+
+  .toolbar {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .toolbar-left, .toolbar-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .search-wrap { position: relative; min-width: 260px; flex: 1; }
+  .search-wrap input { width: 100%; padding-left: 30px; }
+  .search-wrap .ico {
+    position: absolute; left: 9px; top: 50%; transform: translateY(-50%);
+    color: var(--muted); pointer-events: none; font-size: 13px;
+  }
+
+  .toggle-lbl {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--muted);
+    cursor: pointer; user-select: none; padding: 5px 8px; border-radius: 6px;
+    border: 1px solid var(--border); background: var(--panel);
+  }
+  .toggle-lbl input { accent-color: var(--accent); }
+
+  .table-wrap {
+    background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+    overflow: hidden;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    text-align: left; font-size: 11.5px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.04em; color: var(--muted);
+    padding: 9px 12px; background: var(--panel-2); border-bottom: 1px solid var(--border);
+  }
+  tbody td {
+    padding: 8px 12px; border-bottom: 1px solid rgba(42, 54, 72, 0.55); vertical-align: middle;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: rgba(76, 154, 255, 0.04); }
+  tbody tr.is-comment td { opacity: 0.58; }
+  tbody tr.is-match { background: rgba(52, 211, 153, 0.12) !important; }
+  tbody tr.is-new { background: rgba(76, 154, 255, 0.08); }
+
+  .lineno { font-family: var(--mono); font-size: 11.5px; color: #5b6b82; width: 52px; text-align: right; }
+  .entry-val { font-family: var(--mono); font-size: 13px; word-break: break-all; }
+  .entry-comment { color: var(--muted); font-size: 12.5px; word-break: break-word; }
+  .row-actions { display: flex; gap: 5px; justify-content: flex-end; white-space: nowrap; }
+
+  .ip-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .ip-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 2px 7px; border-radius: 5px; font-family: var(--mono); font-size: 12px;
+    background: var(--bg); border: 1px solid var(--border);
+  }
+  .ip-chip button {
+    background: none; border: none; color: var(--muted); cursor: pointer; padding: 0 2px; font-size: 13px; line-height: 1;
+  }
+  .ip-chip button:hover { color: var(--red); }
+
+  .pagination {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+    padding: 10px 14px; background: var(--panel-2); border-top: 1px solid var(--border);
+    font-size: 12.5px; color: var(--muted);
+  }
+
+  .raw-editor {
+    width: 100%; min-height: 460px; padding: 14px;
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.55;
+    background: var(--bg); color: var(--text);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    resize: vertical; outline: none;
+  }
+  .raw-editor:focus { border-color: var(--accent); }
+
+  .start-box {
+    max-width: 560px; margin: 54px auto; padding: 28px;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    text-align: center;
+  }
+  .start-box h2 { margin: 0 0 8px; font-size: 19px; }
+  .start-box p { margin: 0 0 20px; color: var(--muted); font-size: 13.5px; }
+  .start-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .alert-box {
+    margin-top: 16px; padding: 10px 12px; border-radius: 7px; text-align: left; font-size: 12.5px;
+    border: 1px solid rgba(251,191,36,.35); background: var(--amber-dim); color: #fde68a;
+  }
+
+  .field { margin-bottom: 13px; text-align: left; }
+  .field label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 5px; }
+  .field .input { width: 100%; }
+  .field-row { display: grid; grid-template-columns: 1fr 130px; gap: 10px; }
+
+  .modal-backdrop {
+    position: fixed; inset: 0; background: rgba(6, 10, 16, 0.72);
+    display: none; align-items: center; justify-content: center; padding: 16px; z-index: 50;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal {
+    width: 100%; max-width: 720px; max-height: 88vh; overflow: hidden;
+    display: flex; flex-direction: column;
+    background: var(--panel); border: 1px solid var(--border-hi); border-radius: 10px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  }
+  .modal-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 13px 16px; border-bottom: 1px solid var(--border);
+  }
+  .modal-head h3 { margin: 0; font-size: 15px; }
+  .modal-body { padding: 15px 16px; overflow-y: auto; flex: 1; }
+  .modal-foot {
+    display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+    padding: 12px 16px; border-top: 1px solid var(--border); background: var(--panel-2);
+  }
+
+  .sync-file-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+  .sync-file-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 7px 10px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg);
+    font-family: var(--mono); font-size: 12.5px;
+  }
+  .sync-file-row label { display: flex; align-items: center; gap: 8px; cursor: pointer; margin: 0; font-weight: 500; color: var(--text); }
+
+  .diff-box {
+    font-family: var(--mono); font-size: 12px; line-height: 1.5;
+    background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+    max-height: 290px; overflow: auto; padding: 8px 0;
+  }
+  .diff-line { padding: 1px 12px; white-space: pre-wrap; word-break: break-all; }
+  .diff-line.add { background: rgba(52, 211, 153, 0.13); color: #6ee7b7; }
+  .diff-line.del { background: rgba(248, 113, 113, 0.13); color: #fca5a5; }
+  .diff-line.hdr { color: var(--accent); background: rgba(76, 154, 255, 0.08); font-weight: 600; padding-top: 4px; padding-bottom: 4px; }
+
+  .toasts {
+    position: fixed; right: 18px; bottom: 18px; z-index: 100;
+    display: flex; flex-direction: column; gap: 8px; max-width: 400px;
+  }
+  .toast {
+    padding: 10px 14px; border-radius: 8px; font-size: 13px;
+    background: var(--panel-2); border: 1px solid var(--border-hi); color: var(--text);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+  }
+  .toast.ok { border-color: rgba(52,211,153,.5); }
+  .toast.err { border-color: rgba(248,113,113,.5); color: #fecaca; }
+  .toast.warn { border-color: rgba(251,191,36,.5); color: #fde68a; }
+
+  .kbd {
+    display: inline-block; padding: 1px 5px; font-size: 11px; font-family: var(--mono);
+    border: 1px solid var(--border-hi); border-radius: 4px; background: var(--bg); color: var(--muted);
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand">
+      <div class="brand-icon">PG</div>
+      <div>
+        <h1>PMG Blocklist Manager</h1>
+        <div class="sub" id="folderLabel">Local folder not opened</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span class="pill" id="folderPill"><span class="dot"></span> No folder</span>
+      <button class="btn" id="btnReload" disabled title="Reload all 6 files from local folder (picks up IDE edits)">Reload Disk</button>
+      <button class="btn" id="btnRaw" disabled title="Toggle raw text editor">Raw View</button>
+      <button class="btn primary" id="btnSaveLocal" disabled title="Write staged edits to local disk (Ctrl+S)">Save Local <span id="dirtyBadge"></span></button>
+      <button class="btn success" id="btnSyncGh" disabled title="Compare local files with GitHub &amp; push updates">Sync to GitHub</button>
+      <button class="btn" id="btnPullGh" disabled title="Pull latest copies from GitHub into local folder">Pull GitHub</button>
+      <button class="btn" id="btnGhSettings" title="GitHub repository &amp; token settings">GitHub Settings</button>
+    </div>
+  </header>
+
+  <nav class="tabs-bar" id="tabsBar" style="display:none;"></nav>
+
+  <main>
+    <!-- Start / Folder Picker Screen -->
+    <div class="start-box" id="startScreen">
+      <h2>Open Local <code>blocklist/</code> Folder</h2>
+      <p>Edit all 6 PMG blocklist <code>.txt</code> files directly on disk with live validation, subdomain overlap checks, and exact backend match simulation — then sync changes to <code>MatrixEvo/email-spammers</code> in one click.</p>
+
+      <div class="start-actions">
+        <button class="btn primary" id="btnReconnectFolder" style="display:none;">Reconnect Last Folder</button>
+        <button class="btn primary" id="btnPickFolder">Open Local blocklist/ Folder</button>
+      </div>
+
+      <div class="alert-box" id="fsUnsupportedAlert" style="display:none;">
+        <strong>Browser unsupported:</strong> Direct local folder editing uses the File System Access API, which requires <b>Google Chrome</b>, <b>Microsoft Edge</b>, or <b>Brave</b> (not Firefox/Safari).
+      </div>
+      <div class="hint-msg muted" id="startStatus" style="margin-top:14px;">Tip: Pick <code>scripts/Proxmox/pmg/blocklist</code> once — Chrome remembers the folder for 1-click reconnect next time.</div>
+    </div>
+
+    <!-- Workspace -->
+    <div id="workspace" style="display:none;">
+      <div class="banner">
+        <div class="meta">
+          <div class="title-row">
+            <h2 id="fileTitle">spammers.txt</h2>
+            <span class="badge blue" id="fileModeBadge"></span>
+            <span class="badge red" id="fileActionBadge"></span>
+          </div>
+          <p id="fileDesc"></p>
+        </div>
+        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+          <button class="btn sm" id="btnSwitchFolder" title="Choose a different local folder">Switch Folder</button>
+          <button class="btn sm" id="btnBulkAdd">+ Bulk Add</button>
+          <button class="btn sm" id="btnDownload">Download .txt</button>
+          <button class="btn sm danger" id="btnDiscard" disabled>Discard Edits</button>
+        </div>
+      </div>
+
+      <div class="grid-2" id="topWidgets">
+        <!-- Quick Add -->
+        <div class="card">
+          <div class="card-title">
+            <span>Add Entry (staged locally until Save)</span>
+            <span class="kbd">Enter</span>
+          </div>
+          <div id="addFormStandard" class="form-row">
+            <input class="input mono" id="addValue" placeholder="example.com or user@domain.com">
+            <input class="input" id="addComment" placeholder="Optional # note (e.g. ANA phishing)" style="max-width:240px;">
+            <button class="btn primary" id="btnAdd">Add</button>
+          </div>
+          <div id="addFormBackscatter" class="form-row" style="display:none;">
+            <input class="input mono" id="addBsDomain" placeholder="domain.com" style="max-width:200px;">
+            <input class="input mono" id="addBsIps" placeholder="1.2.3.4 5.6.7.8 (space/comma separated)">
+            <input class="input" id="addBsComment" placeholder="Optional # note" style="max-width:180px;">
+            <button class="btn primary" id="btnAddBs">Add</button>
+          </div>
+          <div class="hint-msg muted" id="addHint"></div>
+        </div>
+
+        <!-- Live Match Tester -->
+        <div class="card">
+          <div class="card-title">
+            <span>Live Match Simulator</span>
+            <span style="font-weight:400; text-transform:none;">Exact PMG backend matching</span>
+          </div>
+          <div class="form-row">
+            <input class="input mono" id="testInput" placeholder="Test domain, email, URL, or IP...">
+            <button class="btn" id="btnClearTest" style="display:none;">Clear</button>
+          </div>
+          <div class="hint-msg muted" id="testResult">Type a value to test against active rules in this file.</div>
+        </div>
+      </div>
+
+      <!-- Structured Table View -->
+      <div id="listView">
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <div class="search-wrap">
+              <span class="ico">&#128269;</span>
+              <input class="input mono" id="searchInput" placeholder="Filter entries or notes... (press /)">
+            </div>
+            <label class="toggle-lbl">
+              <input type="checkbox" id="chkShowComments">
+              <span>Show # comments</span>
+            </label>
+            <select class="input" id="filterType" style="max-width:165px; display:none;">
+              <option value="all">All types</option>
+              <option value="domain">Domains only</option>
+              <option value="email">Emails only</option>
+            </select>
+          </div>
+          <div class="toolbar-right">
+            <span id="filterStats" style="font-size:12.5px; color:var(--muted);"></span>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr id="tableHeadRow"></tr></thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+          <div class="pagination" id="paginationBar"></div>
+        </div>
+      </div>
+
+      <!-- Raw Text View -->
+      <div id="rawView" style="display:none;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; gap:8px; flex-wrap:wrap;">
+          <span style="font-size:12.5px; color:var(--muted);">Direct raw text editor. Click <b>Apply Raw Edits</b> to stage changes, then <b>Save Local</b>.</span>
+          <div style="display:flex; gap:8px;">
+            <button class="btn primary sm" id="btnApplyRaw">Apply Raw Edits</button>
+            <button class="btn sm" id="btnCancelRaw">Back to Table</button>
+          </div>
+        </div>
+        <textarea class="raw-editor" id="rawTextarea" spellcheck="false"></textarea>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Bulk Add Modal -->
+<div class="modal-backdrop" id="bulkModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="bulkTitle">Bulk Add Entries</h3>
+      <button class="btn icon sm" onclick="closeModal('bulkModal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p style="margin:0 0 10px; font-size:12.5px; color:var(--muted);">Paste one entry per line. Inline <code># notes</code> are preserved; duplicates, redundant subdomains, and invalid entries are skipped automatically.</p>
+      <textarea class="raw-editor" id="bulkText" style="min-height:220px;" placeholder="bad-domain.com # phishing wave&#10;evil-sender.top # credential phish"></textarea>
+      <div class="hint-msg muted" id="bulkPreview"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeModal('bulkModal')">Cancel</button>
+      <button class="btn primary" id="btnBulkConfirm">Add Valid Lines</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Row Modal -->
+<div class="modal-backdrop" id="editModal">
+  <div class="modal" style="max-width:540px;">
+    <div class="modal-head">
+      <h3>Edit Entry</h3>
+      <button class="btn icon sm" onclick="closeModal('editModal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div id="editStdFields">
+        <div class="field">
+          <label for="editVal">Entry Value</label>
+          <input class="input mono" id="editVal">
+        </div>
+        <div class="field">
+          <label for="editComment">Inline Note (without #)</label>
+          <input class="input" id="editComment" placeholder="Optional reason or campaign note">
+        </div>
+      </div>
+      <div id="editBsFields" style="display:none;">
+        <div class="field">
+          <label for="editBsDomain">Domain</label>
+          <input class="input mono" id="editBsDomain">
+        </div>
+        <div class="field">
+          <label for="editBsIps">Allowed IPs (space-separated IPv4)</label>
+          <textarea class="raw-editor" id="editBsIps" style="min-height:90px;"></textarea>
+        </div>
+        <div class="field">
+          <label for="editBsComment">Inline Note (without #)</label>
+          <input class="input" id="editBsComment">
+        </div>
+      </div>
+      <div class="hint-msg muted" id="editHint"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeModal('editModal')">Cancel</button>
+      <button class="btn primary" id="btnEditSave">Apply to Table</button>
+    </div>
+  </div>
+</div>
+
+<!-- Save Local Diff Modal -->
+<div class="modal-backdrop" id="saveLocalModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Save Changes to Local Disk</h3>
+      <button class="btn icon sm" onclick="closeModal('saveLocalModal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>Local Diff (<span id="saveLocalSummary"></span>)</label>
+        <div class="diff-box" id="saveLocalDiffBox"></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeModal('saveLocalModal')">Cancel</button>
+      <button class="btn primary" id="btnConfirmSaveLocal">Write to Disk</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sync to GitHub Modal (Push OR Pull) -->
+<div class="modal-backdrop" id="syncModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="syncModalTitle">Sync Local Files to GitHub</h3>
+      <button class="btn icon sm" onclick="closeModal('syncModal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div id="syncLoadingMsg" class="hint-msg muted" style="margin-bottom:10px;"></div>
+      <div id="syncReadyArea" style="display:none;">
+        <div class="field" id="syncCommitMsgWrap">
+          <label for="syncCommitMsg">Commit Message (<span id="syncRepoTag"></span>)</label>
+          <input class="input" id="syncCommitMsg">
+        </div>
+        <div class="field">
+          <label>Files Differing Between Local Disk &amp; GitHub</label>
+          <div class="sync-file-list" id="syncFileList"></div>
+        </div>
+        <div class="field">
+          <label>Line Diff Preview (<span id="syncDiffSummary"></span>)</label>
+          <div class="diff-box" id="syncDiffBox"></div>
+        </div>
+      </div>
+      <div class="hint-msg muted" id="syncStatus"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeModal('syncModal')">Close</button>
+      <button class="btn success" id="btnSyncExecute" disabled>Push Selected to GitHub</button>
+    </div>
+  </div>
+</div>
+
+<!-- GitHub Settings Modal -->
+<div class="modal-backdrop" id="settingsModal">
+  <div class="modal" style="max-width:520px;">
+    <div class="modal-head">
+      <h3>GitHub Sync Settings</h3>
+      <button class="btn icon sm" onclick="closeModal('settingsModal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p style="margin:0 0 14px; font-size:12.5px; color:var(--muted);">Used only when clicking <b>Sync to GitHub</b> or <b>Pull GitHub</b>. Your token stays in this browser and is only sent to <code>api.github.com</code>.</p>
+      <div class="field-row">
+        <div class="field">
+          <label for="setRepo">Target Repository (owner/repo)</label>
+          <input class="input mono" id="setRepo" placeholder="MatrixEvo/email-spammers">
+        </div>
+        <div class="field">
+          <label for="setBranch">Branch</label>
+          <input class="input mono" id="setBranch" placeholder="main">
+        </div>
+      </div>
+      <div class="field">
+        <label for="setPrefix">Remote Folder Prefix (leave blank for repo root)</label>
+        <input class="input mono" id="setPrefix" placeholder="empty = repo root">
+      </div>
+      <div class="field">
+        <label for="setToken">Fine-Grained PAT (Contents: Read &amp; Write)</label>
+        <input class="input mono" id="setToken" type="password" placeholder="github_pat_... or ghp_..." autocomplete="off">
+      </div>
+      <div class="field">
+        <label class="toggle-lbl" style="width:100%;">
+          <input type="checkbox" id="setRemember">
+          <span>Remember token in <code>localStorage</code> (unchecked = session only)</span>
+        </label>
+      </div>
+    </div>
+    <div class="modal-foot" style="justify-content:space-between;">
+      <button class="btn danger" id="btnClearToken">Clear Token</button>
+      <div style="display:flex; gap:8px;">
+        <button class="btn" onclick="closeModal('settingsModal')">Cancel</button>
+        <button class="btn primary" id="btnSaveSettings">Save Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script>
+(() => {
+  'use strict';
+
+  /* =========================================================================
+   * 1. Blocklist File Specifications (mirrors blocklist/README.md)
+   * ========================================================================= */
+  const FILE_SPECS = [
+    {
+      name: 'spammers.txt',
+      mode: 'ERE Domain (+subdomains) / Email',
+      action: 'VIRUS: manual_blocklist',
+      desc: 'Entries without @ match sender/Reply-To domains via ^(.+\\.)?(entry)$ (auto-matches main domain + all subdomains). Entries with @ match full email addresses via ^(entry)$.',
+      placeholder: 'domain.com  or  user@domain.com  or  FromSMBC@.*',
+      testPlaceholder: 'Test domain or email (e.g. pvuoa@pvuoa.wangzhesha.com)',
+      type: 'spammers',
+      defaultHeader: '# Blocked spammer domains and email addresses (ERE regex, case-insensitive)\n# Format: one domain (auto-matches main domain + all subdomains) or full email regex per line; \'#\' comments supported\n',
+    },
+    {
+      name: 'url_blocklist.txt',
+      mode: 'ERE Body URL Host (+subdomains)',
+      action: 'VIRUS: manual_url_blocklist',
+      desc: 'Matches hostnames extracted from <a href> and plain http(s):// body links via ^(.+\\.)?(entry)$. Paste a full phishing URL to auto-extract its escaped host.',
+      placeholder: 'evil-phish\\.top  or paste https://evil-phish.top/login',
+      testPlaceholder: 'Test hostname or full URL (e.g. https://sub.nemaru.click/x)',
+      type: 'url',
+      defaultHeader: '# Blocked phishing/spam domains found in email body URLs (ERE regex, case-insensitive)\n# Format: one domain or host regex per line (auto-matches main domain + all subdomains); \'#\' comments supported\n',
+    },
+    {
+      name: 'gmail_spammers.txt',
+      mode: 'ERE Full Email (Anchored)',
+      action: 'VIRUS: manual_gmail_blocklist',
+      desc: 'Full-string case-insensitive ERE matched against SMTP and Header From email addresses. Must include @ (bare domains belong in spammers.txt).',
+      placeholder: 'spammer[0-9]+@gmail.com',
+      testPlaceholder: 'Test full email (e.g. askfood123@gmail.com)',
+      type: 'email',
+      defaultHeader: '# Blocked Gmail / free-webmail sender addresses (ERE regex, full-string match, case-insensitive)\n# Format: one email address or regex per line; \'#\' comments (full-line and inline) are supported\n',
+    },
+    {
+      name: 'spf_softfail_strict.txt',
+      mode: 'Exact Literal Domain (No Regex)',
+      action: 'VIRUS: spf_softfail_phishing',
+      desc: 'Exact case-insensitive literal domain match (grep -Fiqx). Blocks when Received-SPF != pass. No regex and no automatic subdomain matching.',
+      placeholder: 'maybank.com.my',
+      testPlaceholder: 'Test exact domain (e.g. advising.hsbc.com)',
+      type: 'literal_domain',
+      defaultHeader: '# Strict SPF domains (exact case-insensitive literal domain match, no regex; blocked if SPF != pass)\n# Format: one domain per line; \'#\' comments (full-line and inline) are supported\n',
+    },
+    {
+      name: 'ip_blocklist.txt',
+      mode: 'Exact IPv4 + CIDR Subnet',
+      action: 'VIRUS: manual_ip_blocklist',
+      desc: 'Matches inbound client IP from Received-SPF (client-ip=...). Supports single IPv4 addresses and IPv4 CIDR subnets (/0–/32).',
+      placeholder: '103.253.12.160  or  103.253.12.160/29',
+      testPlaceholder: 'Test inbound IPv4 (e.g. 103.253.12.164)',
+      type: 'ip',
+      defaultHeader: '# Blocked inbound client IPs and CIDR subnets\n# Format: one IPv4 address or CIDR per line; \'#\' comments (full-line and inline) are supported\n',
+    },
+    {
+      name: 'backscatter_protection.txt',
+      mode: 'Domain + Allowed IPs',
+      action: 'VIRUS: backscatter-<domain>',
+      desc: 'Format: <domain> <ip1> [ip2] ... Blocks bounce/DSN mail to @<domain> when none of its allowed IPs appear in the message.',
+      placeholder: 'domain.com 1.2.3.4 5.6.7.8',
+      testPlaceholder: 'Test domain or IP (e.g. ipserverone.com or 183.81.162.53)',
+      type: 'backscatter',
+      defaultHeader: '# Domain and allowed IPs for backscatter protection\n# Format: <domain> <ip1> <ip2> ...\n',
+    },
+  ];
+
+  const PAGE_SIZE = 100;
+
+  /* =========================================================================
+   * 2. State
+   * ========================================================================= */
+  const state = {
+    dirHandle: null,
+    savedDirHandle: null,
+    folderOpen: false,
+    // GitHub sync config
+    repo: 'MatrixEvo/email-spammers',
+    branch: 'main',
+    prefix: '',
+    token: '',
+    remember: false,
+    // UI state
+    activeFile: FILE_SPECS[0].name,
+    rawMode: false,
+    search: '',
+    showComments: false,
+    filterType: 'all',
+    page: 1,
+    testQuery: '',
+    matchedRowIds: new Set(),
+    editingRowId: null,
+    nextRowId: 1,
+    // files[name] = { diskText, rows, missing }
+    files: {},
+    // syncModal state
+    syncMode: 'push', // 'push' | 'pull'
+    syncDiffs: [],    // [{ name, localText, remoteText, remoteSha, remoteMissing, added, removed, selected }]
+  };
+
+  /* =========================================================================
+   * 3. IndexedDB Persistence for FileSystemDirectoryHandle
+   * ========================================================================= */
+  function openHandleDb() {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open('pmg_blocklist_fs', 1);
+      req.onupgradeneeded = () => {
+        if (!req.result.objectStoreNames.contains('handles')) {
+          req.result.createObjectStore('handles');
+        }
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  async function saveDirHandle(handle) {
+    try {
+      const db = await openHandleDb();
+      const tx = db.transaction('handles', 'readwrite');
+      tx.objectStore('handles').put(handle, 'blocklist_dir');
+      await new Promise((res, rej) => { tx.oncomplete = res; tx.onerror = rej; });
+    } catch { /* ignore if IndexedDB blocked */ }
+  }
+
+  async function loadSavedDirHandle() {
+    try {
+      const db = await openHandleDb();
+      const tx = db.transaction('handles', 'readonly');
+      const req = tx.objectStore('handles').get('blocklist_dir');
+      return await new Promise((res, rej) => {
+        req.onsuccess = () => res(req.result || null);
+        req.onerror = () => rej(req.error);
+      });
+    } catch {
+      return null;
+    }
+  }
+
+  /* =========================================================================
+   * 4. Utilities: UTF-8 Base64, IPv4/CIDR, Regex
+   * ========================================================================= */
+  function b64DecodeUtf8(b64) {
+    const bin = atob(b64.replace(/\s+/g, ''));
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder('utf-8').decode(bytes);
+  }
+
+  function b64EncodeUtf8(str) {
+    const bytes = new TextEncoder().encode(str);
+    let bin = '';
+    const chunk = 0x8000;
+    for (let i = 0; i < bytes.length; i += chunk) {
+      bin += String.fromCharCode(...bytes.subarray(i, i + chunk));
+    }
+    return btoa(bin);
+  }
+
+  function normalizeLf(str) {
+    const s = str.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+    return s && !s.endsWith('\n') ? s + '\n' : s;
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+
+  function parseIpv4Int(ip) {
+    const m = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/.exec(ip.trim());
+    if (!m) return null;
+    const nums = [1, 2, 3, 4].map(i => Number(m[i]));
+    if (nums.some(n => n > 255)) return null;
+    return (((nums[0] << 24) | (nums[1] << 16) | (nums[2] << 8) | nums[3]) >>> 0);
+  }
+
+  function parseCidr(str) {
+    const s = str.trim();
+    if (!s.includes('/')) {
+      const ip = parseIpv4Int(s);
+      return ip === null ? null : { ip, prefix: 32, mask: 0xFFFFFFFF >>> 0, net: ip };
+    }
+    const parts = s.split('/');
+    if (parts.length !== 2 || !/^\d{1,2}$/.test(parts[1])) return null;
+    const ip = parseIpv4Int(parts[0]);
+    const prefix = Number(parts[1]);
+    if (ip === null || prefix < 0 || prefix > 32) return null;
+    const mask = prefix === 0 ? 0 : ((0xFFFFFFFF << (32 - prefix)) >>> 0);
+    return { ip, prefix, mask, net: (ip & mask) >>> 0 };
+  }
+
+  function ipInCidr(ipInt, cidr) {
+    return ((ipInt & cidr.mask) >>> 0) === cidr.net;
+  }
+
+  function cidrContains(outer, inner) {
+    return outer.prefix <= inner.prefix && ((inner.net & outer.mask) >>> 0) === outer.net;
+  }
+
+  function compileEre(pattern, mode) {
+    try {
+      return mode === 'domain_or_sub'
+        ? new RegExp(`^(?:.+\\.)?(?:${pattern})$`, 'i')
+        : new RegExp(`^(?:${pattern})$`, 'i');
+    } catch { return null; }
+  }
+
+  function stripUrlToHost(raw) {
+    const s = raw.trim();
+    if (/^https?:\/\//i.test(s)) {
+      try { return new URL(s).hostname.toLowerCase().replace(/\.$/, ''); } catch { /* ignore */ }
+    }
+    return s;
+  }
+
+  function toast(msg, type = 'ok') {
+    const wrap = document.getElementById('toasts');
+    const el = document.createElement('div');
+    el.className = `toast ${type}`;
+    el.textContent = msg;
+    wrap.appendChild(el);
+    setTimeout(() => { el.remove(); }, 3800);
+  }
+
+  /* =========================================================================
+   * 5. Parser & Serializer (Preserves exact untouched lines & inline comments)
+   * ========================================================================= */
+  function parseLines(text, spec) {
+    const normalized = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+    const rawLines = normalized.split('\n');
+    if (rawLines.length > 0 && rawLines[rawLines.length - 1] === '') rawLines.pop();
+    return rawLines.map(raw => parseSingleLine(raw, spec));
+  }
+
+  function parseSingleLine(raw, spec) {
+    const id = state.nextRowId++;
+    const trimmed = raw.trim();
+    if (!trimmed) {
+      return { id, kind: 'blank', raw, value: '', comment: '', domain: '', ips: [], isNew: false };
+    }
+    if (trimmed.startsWith('#')) {
+      return { id, kind: 'comment', raw, value: '', comment: trimmed.replace(/^#\s?/, ''), domain: '', ips: [], isNew: false };
+    }
+    const cIdx = raw.search(/\s+#/);
+    let valuePart = raw;
+    let comment = '';
+    if (cIdx !== -1) {
+      valuePart = raw.slice(0, cIdx);
+      comment = raw.slice(cIdx).replace(/^\s+#\s?/, '').trim();
+    }
+    const value = valuePart.trim();
+
+    if (spec.type === 'backscatter') {
+      const tokens = value.split(/\s+/).filter(Boolean);
+      return {
+        id, kind: 'entry', raw, value, comment,
+        domain: (tokens[0] || '').toLowerCase(),
+        ips: tokens.slice(1),
+        isNew: false,
+      };
+    }
+    return { id, kind: 'entry', raw, value, comment, domain: '', ips: [], isNew: false };
+  }
+
+  function formatRow(row, spec) {
+    if (row.raw !== null && row.raw !== undefined) return row.raw;
+    if (row.kind === 'blank') return '';
+    if (row.kind === 'comment') return row.comment ? `# ${row.comment}` : '#';
+    if (spec.type === 'backscatter') {
+      const base = [row.domain, ...row.ips].join(' ');
+      return row.comment ? `${base} # ${row.comment}` : base;
+    }
+    return row.comment ? `${row.value} # ${row.comment}` : row.value;
+  }
+
+  function serializeFile(fileObj, spec) {
+    const out = fileObj.rows.map(r => formatRow(r, spec)).join('\n');
+    return out ? out + '\n' : '';
+  }
+
+  function isFileDirty(name) {
+    const f = state.files[name];
+    if (!f) return false;
+    const spec = FILE_SPECS.find(s => s.name === name);
+    return serializeFile(f, spec) !== f.diskText;
+  }
+
+  function getDirtyFiles() {
+    return FILE_SPECS.map(s => s.name).filter(isFileDirty);
+  }
+
+  function buildLineDiff(oldText, newText) {
+    const oldLines = oldText.split('\n');
+    const newLines = newText.split('\n');
+    if (oldLines[oldLines.length - 1] === '') oldLines.pop();
+    if (newLines[newLines.length - 1] === '') newLines.pop();
+
+    const oldCounts = new Map();
+    const newCounts = new Map();
+    for (const l of oldLines) oldCounts.set(l, (oldCounts.get(l) || 0) + 1);
+    for (const l of newLines) newCounts.set(l, (newCounts.get(l) || 0) + 1);
+
+    const removed = [];
+    const added = [];
+    const tempNew = new Map(newCounts);
+    for (const l of oldLines) {
+      const n = tempNew.get(l) || 0;
+      if (n > 0) tempNew.set(l, n - 1);
+      else removed.push(l);
+    }
+    const tempOld = new Map(oldCounts);
+    for (const l of newLines) {
+      const n = tempOld.get(l) || 0;
+      if (n > 0) tempOld.set(l, n - 1);
+      else added.push(l);
+    }
+    return { added, removed };
+  }
+
+  /* =========================================================================
+   * 6. Local File System Access API (Read / Write Disk)
+   * ========================================================================= */
+  async function ensureDirPermission(handle) {
+    const opts = { mode: 'readwrite' };
+    if ((await handle.queryPermission(opts)) === 'granted') return true;
+    return (await handle.requestPermission(opts)) === 'granted';
+  }
+
+  async function readLocalFile(spec) {
+    try {
+      const fh = await state.dirHandle.getFileHandle(spec.name, { create: false });
+      const file = await fh.getFile();
+      const raw = await file.text();
+      const norm = normalizeLf(raw);
+      state.files[spec.name] = {
+        diskText: norm,
+        rows: parseLines(norm, spec),
+        missing: false,
+      };
+    } catch (e) {
+      if (e.name === 'NotFoundError') {
+        state.files[spec.name] = {
+          diskText: '',
+          rows: parseLines(spec.defaultHeader, spec),
+          missing: true,
+        };
+      } else {
+        throw e;
+      }
+    }
+  }
+
+  async function writeLocalFile(name, content) {
+    const fh = await state.dirHandle.getFileHandle(name, { create: true });
+    const writable = await fh.createWritable();
+    await writable.write(content);
+    await writable.close();
+  }
+
+  async function openDirectoryHandle(handle) {
+    const granted = await ensureDirPermission(handle);
+    if (!granted) {
+      toast('Read/write permission was denied.', 'err');
+      return;
+    }
+    state.dirHandle = handle;
+    await saveDirHandle(handle);
+    await loadAllLocalFiles();
+    state.folderOpen = true;
+    document.getElementById('startScreen').style.display = 'none';
+    document.getElementById('tabsBar').style.display = 'flex';
+    document.getElementById('workspace').style.display = 'block';
+    renderAll();
+    toast(`Opened local folder "${handle.name}".`, 'ok');
+  }
+
+  async function pickLocalFolder() {
+    if (!window.showDirectoryPicker) {
+      toast('Your browser does not support local folder access. Use Chrome or Edge.', 'err');
+      return;
+    }
+    try {
+      const handle = await window.showDirectoryPicker({ id: 'pmg-blocklist', mode: 'readwrite' });
+      await openDirectoryHandle(handle);
+    } catch (e) {
+      if (e.name !== 'AbortError') toast(`Could not open folder: ${e.message}`, 'err');
+    }
+  }
+
+  async function loadAllLocalFiles() {
+    await Promise.all(FILE_SPECS.map(readLocalFile));
+  }
+
+  async function saveDirtyToLocal(showToast = true) {
+    if (state.rawMode) applyRawIfNeeded(false);
+    const dirty = getDirtyFiles();
+    if (dirty.length === 0) return 0;
+
+    for (const name of dirty) {
+      const spec = FILE_SPECS.find(s => s.name === name);
+      const f = state.files[name];
+      const text = serializeFile(f, spec);
+      await writeLocalFile(name, text);
+      f.diskText = text;
+      f.missing = false;
+      f.rows.forEach(r => { r.isNew = false; });
+    }
+    renderAll();
+    if (showToast) toast(`Saved ${dirty.length} file(s) to local disk.`, 'ok');
+    return dirty.length;
+  }
+
+  function openSaveLocalModal() {
+    if (state.rawMode) applyRawIfNeeded(false);
+    const dirty = getDirtyFiles();
+    if (dirty.length === 0) return;
+
+    let totalAdd = 0, totalDel = 0;
+    const htmlParts = [];
+    for (const name of dirty) {
+      const spec = FILE_SPECS.find(s => s.name === name);
+      const f = state.files[name];
+      const { added, removed } = buildLineDiff(f.diskText, serializeFile(f, spec));
+      totalAdd += added.length;
+      totalDel += removed.length;
+      htmlParts.push(`<div class="diff-line hdr">--- ${escapeHtml(name)} (+${added.length} / -${removed.length}) ---</div>`);
+      for (const l of removed) htmlParts.push(`<div class="diff-line del">- ${escapeHtml(l)}</div>`);
+      for (const l of added) htmlParts.push(`<div class="diff-line add">+ ${escapeHtml(l)}</div>`);
+      if (!added.length && !removed.length) {
+        htmlParts.push(`<div class="diff-line" style="color:var(--muted);">  (whitespace / line order changed)</div>`);
+      }
+    }
+    document.getElementById('saveLocalSummary').textContent = `${dirty.length} file(s), +${totalAdd} / -${totalDel} lines`;
+    document.getElementById('saveLocalDiffBox').innerHTML = htmlParts.join('');
+    openModal('saveLocalModal');
+  }
+
+  /* =========================================================================
+   * 7. GitHub Sync Engine (Compare Local Disk <-> MatrixEvo/email-spammers)
+   * ========================================================================= */
+  async function ghRequest(endpoint, options = {}) {
+    const headers = {
+      'Accept': 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+    };
+    if (state.token) headers['Authorization'] = `Bearer ${state.token}`;
+    if (options.body) headers['Content-Type'] = 'application/json';
+
+    const res = await fetch(`https://api.github.com${endpoint}`, {
+      ...options,
+      headers: { ...headers, ...(options.headers || {}) },
+    });
+    const text = await res.text();
+    let data = null;
+    try { data = text ? JSON.parse(text) : null; } catch { data = { message: text }; }
+    if (!res.ok) {
+      const err = new Error(data?.message || `HTTP ${res.status}`);
+      err.status = res.status;
+      throw err;
+    }
+    return data;
+  }
+
+  function remoteFilePath(name) {
+    const p = state.prefix.replace(/^\/+|\/+$/g, '');
+    return p ? `${p}/${name}` : name;
+  }
+
+  async function fetchRemoteFile(name) {
+    const path = remoteFilePath(name);
+    const encPath = path.split('/').map(encodeURIComponent).join('/');
+    try {
+      const data = await ghRequest(`/repos/${state.repo}/contents/${encPath}?ref=${encodeURIComponent(state.branch)}`);
+      return {
+        sha: data.sha,
+        text: normalizeLf(b64DecodeUtf8(data.content || '')),
+        missing: false,
+      };
+    } catch (e) {
+      if (e.status === 404) return { sha: null, text: '', missing: true };
+      throw e;
+    }
+  }
+
+  async function openSyncModal(mode) {
+    // mode: 'push' (Local -> GitHub) or 'pull' (GitHub -> Local)
+    if (mode === 'push' && !state.token) {
+      toast('Enter your GitHub Personal Access Token in GitHub Settings first.', 'warn');
+      openSettingsModal();
+      return;
+    }
+
+    state.syncMode = mode;
+    const isPush = mode === 'push';
+
+    document.getElementById('syncModalTitle').textContent = isPush
+      ? `Sync Local Files -> GitHub (${state.repo})`
+      : `Pull from GitHub (${state.repo}) -> Local Folder`;
+    document.getElementById('syncCommitMsgWrap').style.display = isPush ? 'block' : 'none';
+    document.getElementById('syncRepoTag').textContent = `${state.repo} @ ${state.branch}`;
+    document.getElementById('syncReadyArea').style.display = 'none';
+    document.getElementById('syncStatus').textContent = '';
+
+    const execBtn = document.getElementById('btnSyncExecute');
+    execBtn.disabled = true;
+    execBtn.className = isPush ? 'btn success' : 'btn purple';
+    execBtn.textContent = isPush ? 'Push Selected to GitHub' : 'Overwrite Selected Local Files';
+
+    const loadingEl = document.getElementById('syncLoadingMsg');
+    loadingEl.className = 'hint-msg muted';
+    openModal('syncModal');
+
+    try {
+      // Auto-save unsaved edits to local disk first on Push
+      if (isPush && getDirtyFiles().length > 0) {
+        loadingEl.textContent = 'Saving staged edits to local disk first...';
+        await saveDirtyToLocal(false);
+      }
+
+      // Reload latest disk state for non-dirty files so external IDE edits are always included!
+      loadingEl.textContent = 'Reading local files & comparing with GitHub...';
+      if (isPush) {
+        await loadAllLocalFiles();
+        renderAll();
+      }
+
+      const remotes = await Promise.all(FILE_SPECS.map(async spec => ({
+        name: spec.name,
+        remote: await fetchRemoteFile(spec.name),
+      })));
+
+      const diffs = [];
+      for (const { name, remote } of remotes) {
+        const spec = FILE_SPECS.find(s => s.name === name);
+        const f = state.files[name];
+        const localText = f.missing ? '' : serializeFile(f, spec);
+        const remoteText = remote.text;
+
+        if (localText === remoteText) continue;
+        // Skip files that don't exist on the source side
+        if (isPush && !localText) continue;
+        if (!isPush && remote.missing) continue;
+
+        const { added, removed } = isPush
+          ? buildLineDiff(remoteText, localText)
+          : buildLineDiff(localText, remoteText);
+
+        diffs.push({
+          name,
+          localText,
+          remoteText,
+          remoteSha: remote.sha,
+          remoteMissing: remote.missing,
+          added,
+          removed,
+          selected: true,
+        });
+      }
+
+      state.syncDiffs = diffs;
+      if (diffs.length === 0) {
+        loadingEl.className = 'hint-msg ok';
+        loadingEl.textContent = `All 6 local blocklist files are already 100% in sync with ${state.repo}@${state.branch}!`;
+        return;
+      }
+
+      loadingEl.textContent = '';
+      document.getElementById('syncReadyArea').style.display = 'block';
+      renderSyncDiffSelection();
+    } catch (e) {
+      loadingEl.className = 'hint-msg err';
+      loadingEl.textContent = `GitHub compare failed: ${e.message}`;
+    }
+  }
+
+  function renderSyncDiffSelection() {
+    const isPush = state.syncMode === 'push';
+    const listEl = document.getElementById('syncFileList');
+    listEl.innerHTML = state.syncDiffs.map((d, idx) => {
+      const tag = isPush && d.remoteMissing
+        ? '<span class="badge blue">NEW ON GITHUB</span>'
+        : `<span style="color:var(--green);">+${d.added.length}</span> / <span style="color:var(--red);">-${d.removed.length}</span>`;
+      return `
+        <div class="sync-file-row">
+          <label>
+            <input type="checkbox" data-sync-idx="${idx}" ${d.selected ? 'checked' : ''}>
+            <span>${escapeHtml(d.name)}</span>
+          </label>
+          <span>${tag}</span>
+        </div>`;
+    }).join('');
+
+    listEl.querySelectorAll('input[data-sync-idx]').forEach(chk => {
+      chk.addEventListener('change', () => {
+        state.syncDiffs[Number(chk.dataset.syncIdx)].selected = chk.checked;
+        renderSyncDiffPreview();
+      });
+    });
+
+    renderSyncDiffPreview();
+  }
+
+  function renderSyncDiffPreview() {
+    const selected = state.syncDiffs.filter(d => d.selected);
+    const execBtn = document.getElementById('btnSyncExecute');
+    execBtn.disabled = selected.length === 0;
+
+    let totalAdd = 0, totalDel = 0;
+    const htmlParts = [];
+    const summaryBits = [];
+
+    for (const d of selected) {
+      totalAdd += d.added.length;
+      totalDel += d.removed.length;
+      summaryBits.push(`${d.name} (+${d.added.length}/-${d.removed.length})`);
+      htmlParts.push(`<div class="diff-line hdr">--- ${escapeHtml(d.name)} (+${d.added.length} / -${d.removed.length}) ---</div>`);
+      for (const l of d.removed) htmlParts.push(`<div class="diff-line del">- ${escapeHtml(l)}</div>`);
+      for (const l of d.added) htmlParts.push(`<div class="diff-line add">+ ${escapeHtml(l)}</div>`);
+      if (!d.added.length && !d.removed.length) {
+        htmlParts.push(`<div class="diff-line" style="color:var(--muted);">  (whitespace / line order changed)</div>`);
+      }
+    }
+
+    document.getElementById('syncDiffSummary').textContent =
+      `${selected.length} file(s), +${totalAdd} / -${totalDel} lines`;
+    document.getElementById('syncDiffBox').innerHTML = htmlParts.length
+      ? htmlParts.join('')
+      : '<div class="diff-line" style="color:var(--muted);">Select at least one file above.</div>';
+
+    if (state.syncMode === 'push' && selected.length > 0) {
+      document.getElementById('syncCommitMsg').value = selected.length === 1
+        ? `Update ${summaryBits[0]}`
+        : `Sync blocklists: ${summaryBits.join(', ')}`;
+    }
+  }
+
+  async function executeSync() {
+    const selected = state.syncDiffs.filter(d => d.selected);
+    if (selected.length === 0) return;
+
+    const btn = document.getElementById('btnSyncExecute');
+    const statusEl = document.getElementById('syncStatus');
+    btn.disabled = true;
+
+    try {
+      if (state.syncMode === 'push') {
+        const msg = document.getElementById('syncCommitMsg').value.trim() || 'Sync PMG blocklists';
+        let done = 0;
+        for (const d of selected) {
+          statusEl.className = 'hint-msg muted';
+          statusEl.textContent = `Pushing ${d.name} (${done + 1}/${selected.length})...`;
+          const path = remoteFilePath(d.name);
+          const encPath = path.split('/').map(encodeURIComponent).join('/');
+          const payload = {
+            message: msg,
+            content: b64EncodeUtf8(d.localText),
+            branch: state.branch,
+          };
+          if (d.remoteSha) payload.sha = d.remoteSha;
+
+          await ghRequest(`/repos/${state.repo}/contents/${encPath}`, {
+            method: 'PUT',
+            body: JSON.stringify(payload),
+          });
+          done++;
+        }
+        closeModal('syncModal');
+        toast(`Synced ${done} file(s) to ${state.repo}@${state.branch}!`, 'ok');
+      } else {
+        // Pull GitHub -> Local disk
+        let done = 0;
+        for (const d of selected) {
+          statusEl.className = 'hint-msg muted';
+          statusEl.textContent = `Writing ${d.name} locally (${done + 1}/${selected.length})...`;
+          await writeLocalFile(d.name, d.remoteText);
+          const spec = FILE_SPECS.find(s => s.name === d.name);
+          state.files[d.name] = {
+            diskText: d.remoteText,
+            rows: parseLines(d.remoteText, spec),
+            missing: false,
+          };
+          done++;
+        }
+        state.rawMode = false;
+        closeModal('syncModal');
+        renderAll();
+        toast(`Pulled ${done} file(s) from GitHub to local disk!`, 'ok');
+      }
+    } catch (e) {
+      statusEl.className = 'hint-msg err';
+      statusEl.textContent = e.status === 409
+        ? 'Conflict (409): File changed on GitHub while modal was open. Close and click Sync again.'
+        : `Sync failed: ${e.message}`;
+      toast(`Sync failed: ${e.message}`, 'err');
+      btn.disabled = false;
+    }
+  }
+
+  /* =========================================================================
+   * 8. Validation & Redundancy Checks
+   * ========================================================================= */
+  function validateEntry(inputVal, spec, rows, ignoreRowId = null) {
+    let val = inputVal.trim();
+    const warnings = [];
+    if (!val) return { ok: false, error: 'Entry cannot be empty.' };
+
+    const activeRows = rows.filter(r => r.kind === 'entry' && r.id !== ignoreRowId);
+
+    if (spec.type === 'spammers') {
+      val = val.replace(/^mailto:/i, '').replace(/^<|>$/g, '').trim();
+      if (/^https?:\/\//i.test(val)) {
+        val = stripUrlToHost(val);
+        warnings.push(`Extracted host "${val}" from pasted URL.`);
+      }
+      if (/\s/.test(val)) return { ok: false, error: 'Whitespace is not allowed in a domain/email entry.' };
+      if (val.endsWith('@')) {
+        return { ok: false, error: 'Trailing "@" (like "marketing@") will never match. Use "marketing@.*" or "marketing@domain.com".' };
+      }
+
+      const isEmail = val.includes('@');
+      const re = compileEre(val, isEmail ? 'full' : 'domain_or_sub');
+      if (!re) return { ok: false, error: 'Invalid regular expression syntax.' };
+
+      const dup = activeRows.find(r => r.value.toLowerCase() === val.toLowerCase());
+      if (dup) return { ok: false, error: `Duplicate entry already exists ("${dup.value}").` };
+
+      if (!isEmail) {
+        if (/^\.\*\\?\./.test(val)) {
+          const bare = val.replace(/^\.\*\\?\./, '');
+          warnings.push(`Tip: Backend auto-matches subdomains — "${bare}" alone matches both main domain and *.${bare}.`);
+        }
+        if (/^[a-z0-9.-]+$/i.test(val)) {
+          const cover = activeRows.find(r => {
+            if (r.value.includes('@')) return false;
+            const cr = compileEre(r.value, 'domain_or_sub');
+            return cr && cr.test(val);
+          });
+          if (cover) return { ok: false, error: `Already covered by existing rule "${cover.value}" (backend auto-matches subdomains).` };
+        }
+      }
+      return { ok: true, value: val, warnings };
+    }
+
+    if (spec.type === 'url') {
+      if (/^https?:\/\//i.test(val)) {
+        const host = stripUrlToHost(val);
+        val = host.replace(/\./g, '\\.');
+        warnings.push(`Extracted & escaped hostname "${val}" from pasted URL.`);
+      }
+      if (val.includes('/')) return { ok: false, error: 'URL paths ("/") are not matched — enter hostnames only (e.g. evil\\.top).' };
+      if (/\s/.test(val)) return { ok: false, error: 'Whitespace is not allowed in hostname regex.' };
+      const re = compileEre(val, 'domain_or_sub');
+      if (!re) return { ok: false, error: 'Invalid regular expression syntax.' };
+
+      const dup = activeRows.find(r => r.value.toLowerCase() === val.toLowerCase());
+      if (dup) return { ok: false, error: `Duplicate entry already exists ("${dup.value}").` };
+
+      const plainHost = val.replace(/\\\./g, '.');
+      if (/^[a-z0-9.-]+$/i.test(plainHost)) {
+        const cover = activeRows.find(r => {
+          const cr = compileEre(r.value, 'domain_or_sub');
+          return cr && cr.test(plainHost);
+        });
+        if (cover) return { ok: false, error: `Already covered by existing rule "${cover.value}".` };
+      }
+      return { ok: true, value: val, warnings };
+    }
+
+    if (spec.type === 'email') {
+      val = val.replace(/^mailto:/i, '').replace(/^<|>$/g, '').trim();
+      if (!val.includes('@')) return { ok: false, error: 'gmail_spammers.txt requires "@" (full email). Put bare domains in spammers.txt.' };
+      if (val.endsWith('@') || val.startsWith('@')) return { ok: false, error: 'Email pattern needs both local-part and domain around "@".' };
+      if (/\s/.test(val)) return { ok: false, error: 'Whitespace is not allowed.' };
+      if (!compileEre(val, 'full')) return { ok: false, error: 'Invalid regular expression syntax.' };
+      const dup = activeRows.find(r => r.value.toLowerCase() === val.toLowerCase());
+      if (dup) return { ok: false, error: `Duplicate entry already exists ("${dup.value}").` };
+      return { ok: true, value: val, warnings };
+    }
+
+    if (spec.type === 'literal_domain') {
+      val = stripUrlToHost(val).toLowerCase();
+      if (/[*?+[\]()\\^$|{}]/.test(val)) return { ok: false, error: 'spf_softfail_strict.txt uses exact literal matching (no regex characters allowed).' };
+      if (!/^[a-z0-9-]+(\.[a-z0-9-]+)+$/i.test(val)) return { ok: false, error: 'Enter a valid plain domain (e.g. maybank.com.my).' };
+      const dup = activeRows.find(r => r.value.toLowerCase() === val);
+      if (dup) return { ok: false, error: `Duplicate domain already exists ("${dup.value}").` };
+      return { ok: true, value: val, warnings };
+    }
+
+    if (spec.type === 'ip') {
+      const parsed = parseCidr(val);
+      if (!parsed) return { ok: false, error: 'Enter a valid IPv4 address (1.2.3.4) or CIDR subnet (1.2.3.0/24).' };
+      const dup = activeRows.find(r => r.value === val);
+      if (dup) return { ok: false, error: `Duplicate IP/CIDR already exists ("${dup.value}").` };
+      const cover = activeRows.find(r => {
+        const c = parseCidr(r.value);
+        return c && cidrContains(c, parsed);
+      });
+      if (cover) return { ok: false, error: `Already covered by existing CIDR "${cover.value}".` };
+      return { ok: true, value: val, warnings };
+    }
+
+    return { ok: true, value: val, warnings };
+  }
+
+  function validateBackscatter(domainRaw, ipsRaw, rows, ignoreRowId = null) {
+    const domain = stripUrlToHost(domainRaw).toLowerCase().replace(/^@/, '');
+    if (!/^[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(domain)) return { ok: false, error: 'Enter a valid domain (e.g. ipserverone.com).' };
+    const ips = ipsRaw.split(/[\s,]+/).map(s => s.trim()).filter(Boolean);
+    if (ips.length === 0) return { ok: false, error: 'Provide at least one allowed IPv4 address.' };
+    for (const ip of ips) {
+      if (parseIpv4Int(ip) === null) return { ok: false, error: `Invalid IPv4 address: "${ip}".` };
+    }
+    const uniqueIps = [...new Set(ips)];
+    const dup = rows.find(r => r.kind === 'entry' && r.id !== ignoreRowId && r.domain.toLowerCase() === domain);
+    if (dup) return { ok: false, error: `Domain "${domain}" already exists — edit that row to add IPs.` };
+    return { ok: true, domain, ips: uniqueIps };
+  }
+
+  /* =========================================================================
+   * 9. Live Match Simulator
+   * ========================================================================= */
+  function runLiveTest() {
+    const q = state.testQuery.trim();
+    const resEl = document.getElementById('testResult');
+    document.getElementById('btnClearTest').style.display = q ? 'inline-flex' : 'none';
+    state.matchedRowIds.clear();
+
+    if (!q) {
+      resEl.className = 'hint-msg muted';
+      resEl.textContent = 'Type a value to test against active rules in this file.';
+      renderTable();
+      return;
+    }
+
+    const spec = getActiveSpec();
+    const rows = state.files[spec.name].rows.filter(r => r.kind === 'entry');
+    const matches = [];
+
+    if (spec.type === 'spammers') {
+      const cleaned = q.replace(/^mailto:/i, '').replace(/^<|>$/g, '').trim().toLowerCase();
+      const hasAt = cleaned.includes('@');
+      const domPart = hasAt ? cleaned.split('@')[1] : stripUrlToHost(cleaned);
+      for (const r of rows) {
+        const ruleIsEmail = r.value.includes('@');
+        if (ruleIsEmail && hasAt) {
+          const re = compileEre(r.value, 'full');
+          if (re && re.test(cleaned)) matches.push(r);
+        } else if (!ruleIsEmail && domPart) {
+          const re = compileEre(r.value, 'domain_or_sub');
+          if (re && re.test(domPart)) matches.push(r);
+        }
+      }
+    } else if (spec.type === 'url') {
+      const host = stripUrlToHost(q).toLowerCase();
+      for (const r of rows) {
+        const re = compileEre(r.value, 'domain_or_sub');
+        if (re && re.test(host)) matches.push(r);
+      }
+    } else if (spec.type === 'email') {
+      const cleaned = q.replace(/^mailto:/i, '').replace(/^<|>$/g, '').trim().toLowerCase();
+      for (const r of rows) {
+        const re = compileEre(r.value, 'full');
+        if (re && re.test(cleaned)) matches.push(r);
+      }
+    } else if (spec.type === 'literal_domain') {
+      const dom = stripUrlToHost(q).toLowerCase();
+      for (const r of rows) if (r.value.toLowerCase() === dom) matches.push(r);
+    } else if (spec.type === 'ip') {
+      const ipInt = parseIpv4Int(q);
+      if (ipInt === null) {
+        resEl.className = 'hint-msg warn';
+        resEl.textContent = 'Enter a valid IPv4 address (e.g. 103.253.12.164) to test.';
+        renderTable();
+        return;
+      }
+      for (const r of rows) {
+        const c = parseCidr(r.value);
+        if (c && ipInCidr(ipInt, c)) matches.push(r);
+      }
+    } else if (spec.type === 'backscatter') {
+      const lower = q.toLowerCase();
+      for (const r of rows) if (r.domain === lower || r.ips.includes(q)) matches.push(r);
+    }
+
+    matches.forEach(m => state.matchedRowIds.add(m.id));
+    if (matches.length > 0) {
+      resEl.className = 'hint-msg ok';
+      resEl.textContent = `MATCH (${matches.length}): ${matches.slice(0, 3).map(m => m.value).join(', ')}${matches.length > 3 ? ' ...' : ''}`;
+    } else {
+      resEl.className = 'hint-msg warn';
+      resEl.textContent = `No match in ${spec.name}.`;
+    }
+    renderTable();
+  }
+
+  /* =========================================================================
+   * 10. Rendering
+   * ========================================================================= */
+  function getActiveSpec() {
+    return FILE_SPECS.find(s => s.name === state.activeFile);
+  }
+
+  function renderHeader() {
+    const folderName = state.dirHandle ? state.dirHandle.name : '';
+    document.getElementById('folderLabel').textContent = state.folderOpen
+      ? `Local: ${folderName}/   |   GitHub: ${state.repo} @ ${state.branch}`
+      : `Target GitHub: ${state.repo} @ ${state.branch}`;
+
+    const pill = document.getElementById('folderPill');
+    const dirty = getDirtyFiles();
+    if (!state.folderOpen) {
+      pill.className = 'pill';
+      pill.innerHTML = '<span class="dot"></span> No folder';
+    } else if (dirty.length > 0) {
+      pill.className = 'pill warn';
+      pill.innerHTML = `<span class="dot"></span> ${dirty.length} unsaved`;
+    } else {
+      pill.className = 'pill ok';
+      pill.innerHTML = `<span class="dot"></span> ${escapeHtml(folderName)}/`;
+    }
+
+    document.getElementById('btnReload').disabled = !state.folderOpen;
+    document.getElementById('btnRaw').disabled = !state.folderOpen;
+    document.getElementById('btnRaw').textContent = state.rawMode ? 'Table View' : 'Raw View';
+    document.getElementById('btnSaveLocal').disabled = !state.folderOpen || dirty.length === 0;
+    document.getElementById('dirtyBadge').textContent = dirty.length ? `(${dirty.length})` : '';
+    document.getElementById('btnSyncGh').disabled = !state.folderOpen;
+    document.getElementById('btnPullGh').disabled = !state.folderOpen;
+  }
+
+  function renderTabs() {
+    const bar = document.getElementById('tabsBar');
+    bar.innerHTML = FILE_SPECS.map(spec => {
+      const f = state.files[spec.name];
+      const count = f ? f.rows.filter(r => r.kind === 'entry').length : 0;
+      const dirty = isFileDirty(spec.name);
+      const active = spec.name === state.activeFile;
+      return `
+        <button class="tab ${active ? 'active' : ''} ${dirty ? 'dirty' : ''}" data-file="${spec.name}">
+          <span class="dirty-dot" title="Unsaved local edits"></span>
+          <span>${spec.name}</span>
+          <span class="cnt">${count}</span>
+        </button>`;
+    }).join('');
+
+    bar.querySelectorAll('.tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (state.rawMode) applyRawIfNeeded(false);
+        state.activeFile = btn.dataset.file;
+        state.page = 1;
+        state.search = '';
+        state.filterType = 'all';
+        state.testQuery = '';
+        state.matchedRowIds.clear();
+        document.getElementById('searchInput').value = '';
+        document.getElementById('testInput').value = '';
+        document.getElementById('addHint').textContent = '';
+        renderAll();
+      });
+    });
+  }
+
+  function renderBannerAndForms() {
+    const spec = getActiveSpec();
+    const f = state.files[spec.name];
+    document.getElementById('fileTitle').textContent = spec.name + (f?.missing ? ' (not on disk yet)' : '');
+    document.getElementById('fileModeBadge').textContent = spec.mode;
+    document.getElementById('fileActionBadge').textContent = spec.action;
+    document.getElementById('fileDesc').textContent = spec.desc;
+    document.getElementById('btnDiscard').disabled = !isFileDirty(spec.name);
+    document.getElementById('btnBulkAdd').disabled = spec.type === 'backscatter';
+
+    const isBs = spec.type === 'backscatter';
+    document.getElementById('addFormStandard').style.display = isBs ? 'none' : 'flex';
+    document.getElementById('addFormBackscatter').style.display = isBs ? 'flex' : 'none';
+    document.getElementById('addValue').placeholder = spec.placeholder;
+    document.getElementById('testInput').placeholder = spec.testPlaceholder;
+
+    const filterSel = document.getElementById('filterType');
+    filterSel.style.display = spec.type === 'spammers' ? 'inline-block' : 'none';
+    filterSel.value = state.filterType;
+
+    document.getElementById('topWidgets').style.display = state.rawMode ? 'none' : 'grid';
+    document.getElementById('listView').style.display = state.rawMode ? 'none' : 'block';
+    document.getElementById('rawView').style.display = state.rawMode ? 'block' : 'none';
+    if (state.rawMode) {
+      document.getElementById('rawTextarea').value = serializeFile(f, spec);
+    }
+  }
+
+  function getFilteredRows() {
+    const spec = getActiveSpec();
+    const rows = state.files[spec.name].rows;
+    const q = state.search.trim().toLowerCase();
+
+    return rows.map((row, idx) => ({ row, lineNum: idx + 1 })).filter(({ row }) => {
+      if (row.kind === 'blank') return false;
+      if (row.kind === 'comment' && !state.showComments) return false;
+      if (spec.type === 'spammers' && row.kind === 'entry' && state.filterType !== 'all') {
+        const isEmail = row.value.includes('@');
+        if (state.filterType === 'email' && !isEmail) return false;
+        if (state.filterType === 'domain' && isEmail) return false;
+      }
+      if (q) {
+        const hay = `${row.value} ${row.comment} ${row.domain} ${(row.ips || []).join(' ')}`.toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+  }
+
+  function renderTable() {
+    if (!state.folderOpen || state.rawMode) return;
+    const spec = getActiveSpec();
+    const headRow = document.getElementById('tableHeadRow');
+    const tbody = document.getElementById('tableBody');
+
+    if (spec.type === 'backscatter') {
+      headRow.innerHTML = `
+        <th style="width:52px; text-align:right;">#</th>
+        <th style="width:220px;">Domain</th>
+        <th>Allowed IPs</th>
+        <th style="width:200px;">Note</th>
+        <th style="width:140px; text-align:right;">Actions</th>`;
+    } else if (spec.type === 'spammers' || spec.type === 'ip') {
+      headRow.innerHTML = `
+        <th style="width:52px; text-align:right;">#</th>
+        <th style="width:110px;">Type</th>
+        <th>Entry</th>
+        <th style="width:260px;">Note</th>
+        <th style="width:160px; text-align:right;">Actions</th>`;
+    } else {
+      headRow.innerHTML = `
+        <th style="width:52px; text-align:right;">#</th>
+        <th>Entry</th>
+        <th style="width:280px;">Note</th>
+        <th style="width:160px; text-align:right;">Actions</th>`;
+    }
+
+    const filtered = getFilteredRows();
+    const total = filtered.length;
+    const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    if (state.page > totalPages) state.page = totalPages;
+
+    const start = (state.page - 1) * PAGE_SIZE;
+    const slice = filtered.slice(start, start + PAGE_SIZE);
+
+    const totalEntries = state.files[spec.name].rows.filter(r => r.kind === 'entry').length;
+    document.getElementById('filterStats').textContent =
+      state.search || state.filterType !== 'all' || state.showComments
+        ? `Showing ${total} of ${totalEntries} entries`
+        : `${totalEntries} active entries`;
+
+    if (slice.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:28px; color:var(--muted);">No matching entries.</td></tr>`;
+    } else {
+      tbody.innerHTML = slice.map(({ row, lineNum }) => {
+        const cls = [
+          row.kind === 'comment' ? 'is-comment' : '',
+          state.matchedRowIds.has(row.id) ? 'is-match' : '',
+          row.isNew ? 'is-new' : '',
+        ].filter(Boolean).join(' ');
+
+        if (row.kind === 'comment') {
+          const cols = (spec.type === 'spammers' || spec.type === 'ip' || spec.type === 'backscatter') ? 3 : 2;
+          return `
+            <tr class="${cls}">
+              <td class="lineno">${lineNum}</td>
+              <td colspan="${cols}" class="entry-val" style="color:var(--muted);"># ${escapeHtml(row.comment)}</td>
+              <td>
+                <div class="row-actions">
+                  <button class="btn sm" data-act="uncomment" data-id="${row.id}">Enable</button>
+                  <button class="btn sm danger" data-act="delete" data-id="${row.id}">Delete</button>
+                </div>
+              </td>
+            </tr>`;
+        }
+
+        if (spec.type === 'backscatter') {
+          const chips = row.ips.map((ip, i) => `
+            <span class="ip-chip">
+              <span>${escapeHtml(ip)}</span>
+              <button title="Remove IP" data-act="rm-bs-ip" data-id="${row.id}" data-ip-idx="${i}">&times;</button>
+            </span>`).join('');
+          return `
+            <tr class="${cls}">
+              <td class="lineno">${lineNum}</td>
+              <td class="entry-val">${escapeHtml(row.domain)}</td>
+              <td><div class="ip-chips">${chips}</div></td>
+              <td class="entry-comment">${escapeHtml(row.comment)}</td>
+              <td>
+                <div class="row-actions">
+                  <button class="btn sm" data-act="edit" data-id="${row.id}">Edit</button>
+                  <button class="btn sm danger" data-act="delete" data-id="${row.id}">Delete</button>
+                </div>
+              </td>
+            </tr>`;
+        }
+
+        let typeCell = '';
+        if (spec.type === 'spammers') {
+          const isEmail = row.value.includes('@');
+          typeCell = `<td><span class="badge ${isEmail ? 'purple' : 'blue'}">${isEmail ? 'EMAIL' : 'DOMAIN'}</span></td>`;
+        } else if (spec.type === 'ip') {
+          const isCidr = row.value.includes('/');
+          typeCell = `<td><span class="badge ${isCidr ? 'amber' : 'green'}">${isCidr ? 'CIDR' : 'IPv4'}</span></td>`;
+        }
+
+        return `
+          <tr class="${cls}">
+            <td class="lineno">${lineNum}</td>
+            ${typeCell}
+            <td class="entry-val">${escapeHtml(row.value)}</td>
+            <td class="entry-comment">${escapeHtml(row.comment)}</td>
+            <td>
+              <div class="row-actions">
+                <button class="btn sm" data-act="edit" data-id="${row.id}">Edit</button>
+                <button class="btn sm" data-act="comment" data-id="${row.id}" title="Comment out (#)">#</button>
+                <button class="btn sm danger" data-act="delete" data-id="${row.id}">Delete</button>
+              </div>
+            </td>
+          </tr>`;
+      }).join('');
+    }
+
+    const pag = document.getElementById('paginationBar');
+    if (total <= PAGE_SIZE) {
+      pag.innerHTML = `<span>${total} row(s)</span><span>Shortcuts: <span class="kbd">/</span> search &middot; <span class="kbd">Ctrl+S</span> save local</span>`;
+    } else {
+      pag.innerHTML = `
+        <span>Showing ${start + 1}–${Math.min(start + PAGE_SIZE, total)} of ${total}</span>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <button class="btn sm" id="pgPrev" ${state.page <= 1 ? 'disabled' : ''}>&larr; Prev</button>
+          <span>Page ${state.page} / ${totalPages}</span>
+          <button class="btn sm" id="pgNext" ${state.page >= totalPages ? 'disabled' : ''}>Next &rarr;</button>
+        </div>`;
+      const prev = document.getElementById('pgPrev');
+      const next = document.getElementById('pgNext');
+      if (prev) prev.onclick = () => { state.page--; renderTable(); };
+      if (next) next.onclick = () => { state.page++; renderTable(); };
+    }
+  }
+
+  function renderAll() {
+    renderHeader();
+    if (!state.folderOpen) return;
+    renderTabs();
+    renderBannerAndForms();
+    renderTable();
+  }
+
+  /* =========================================================================
+   * 11. CRUD Actions
+   * ========================================================================= */
+  function addStandardEntry() {
+    const spec = getActiveSpec();
+    const f = state.files[spec.name];
+    const valInput = document.getElementById('addValue');
+    const cmtInput = document.getElementById('addComment');
+    const hint = document.getElementById('addHint');
+
+    const res = validateEntry(valInput.value, spec, f.rows);
+    if (!res.ok) {
+      hint.className = 'hint-msg err';
+      hint.textContent = res.error;
+      return;
+    }
+
+    f.rows.push({
+      id: state.nextRowId++,
+      kind: 'entry',
+      raw: null,
+      value: res.value,
+      comment: cmtInput.value.trim().replace(/^#\s*/, ''),
+      domain: '',
+      ips: [],
+      isNew: true,
+    });
+    valInput.value = '';
+    cmtInput.value = '';
+
+    hint.className = res.warnings.length ? 'hint-msg warn' : 'hint-msg ok';
+    hint.textContent = res.warnings.length
+      ? `Added "${res.value}". ${res.warnings.join(' ')}`
+      : `Added "${res.value}" (click Save Local or Ctrl+S).`;
+
+    state.page = Math.max(1, Math.ceil(getFilteredRows().length / PAGE_SIZE));
+    renderAll();
+    if (state.testQuery) runLiveTest();
+    valInput.focus();
+  }
+
+  function addBackscatterEntry() {
+    const spec = getActiveSpec();
+    const f = state.files[spec.name];
+    const domIn = document.getElementById('addBsDomain');
+    const ipsIn = document.getElementById('addBsIps');
+    const cmtIn = document.getElementById('addBsComment');
+    const hint = document.getElementById('addHint');
+
+    const res = validateBackscatter(domIn.value, ipsIn.value, f.rows);
+    if (!res.ok) {
+      hint.className = 'hint-msg err';
+      hint.textContent = res.error;
+      return;
+    }
+
+    f.rows.push({
+      id: state.nextRowId++,
+      kind: 'entry',
+      raw: null,
+      value: [res.domain, ...res.ips].join(' '),
+      comment: cmtIn.value.trim().replace(/^#\s*/, ''),
+      domain: res.domain,
+      ips: res.ips,
+      isNew: true,
+    });
+    domIn.value = '';
+    ipsIn.value = '';
+    cmtIn.value = '';
+    hint.className = 'hint-msg ok';
+    hint.textContent = `Added ${res.domain} with ${res.ips.length} IP(s) (click Save Local or Ctrl+S).`;
+    renderAll();
+  }
+
+  function handleTableAction(act, rowId, ipIdx) {
+    const spec = getActiveSpec();
+    const f = state.files[spec.name];
+    const idx = f.rows.findIndex(r => r.id === rowId);
+    if (idx === -1) return;
+    const row = f.rows[idx];
+
+    if (act === 'delete') {
+      f.rows.splice(idx, 1);
+      renderAll();
+      if (state.testQuery) runLiveTest();
+      toast('Entry removed (unsaved).', 'warn');
+    } else if (act === 'comment') {
+      const fullLine = formatRow(row, spec);
+      row.kind = 'comment';
+      row.comment = fullLine;
+      row.value = '';
+      row.raw = `# ${fullLine}`;
+      row.isNew = false;
+      renderAll();
+      if (state.testQuery) runLiveTest();
+      toast('Entry commented out (enable "Show # comments" to view).');
+    } else if (act === 'uncomment') {
+      const reparsed = parseSingleLine(row.comment, spec);
+      reparsed.id = row.id;
+      reparsed.raw = null;
+      f.rows[idx] = reparsed;
+      renderAll();
+      if (state.testQuery) runLiveTest();
+      toast('Entry re-enabled.');
+    } else if (act === 'rm-bs-ip') {
+      if (row.ips.length <= 1) {
+        toast('Cannot remove last IP — delete the row instead.', 'warn');
+        return;
+      }
+      row.ips.splice(ipIdx, 1);
+      row.value = [row.domain, ...row.ips].join(' ');
+      row.raw = null;
+      renderAll();
+    } else if (act === 'edit') {
+      openEditModal(row, spec);
+    }
+  }
+
+  function openEditModal(row, spec) {
+    state.editingRowId = row.id;
+    const isBs = spec.type === 'backscatter';
+    document.getElementById('editStdFields').style.display = isBs ? 'none' : 'block';
+    document.getElementById('editBsFields').style.display = isBs ? 'block' : 'none';
+    document.getElementById('editHint').textContent = '';
+
+    if (isBs) {
+      document.getElementById('editBsDomain').value = row.domain;
+      document.getElementById('editBsIps').value = row.ips.join(' ');
+      document.getElementById('editBsComment').value = row.comment;
+    } else {
+      document.getElementById('editVal').value = row.value;
+      document.getElementById('editComment').value = row.comment;
+    }
+    openModal('editModal');
+  }
+
+  function saveEditModal() {
+    const spec = getActiveSpec();
+    const f = state.files[spec.name];
+    const row = f.rows.find(r => r.id === state.editingRowId);
+    if (!row) return;
+    const hint = document.getElementById('editHint');
+
+    if (spec.type === 'backscatter') {
+      const res = validateBackscatter(
+        document.getElementById('editBsDomain').value,
+        document.getElementById('editBsIps').value,
+        f.rows,
+        row.id
+      );
+      if (!res.ok) { hint.className = 'hint-msg err'; hint.textContent = res.error; return; }
+      row.domain = res.domain;
+      row.ips = res.ips;
+      row.value = [res.domain, ...res.ips].join(' ');
+      row.comment = document.getElementById('editBsComment').value.trim().replace(/^#\s*/, '');
+      row.raw = null;
+    } else {
+      const res = validateEntry(document.getElementById('editVal').value, spec, f.rows, row.id);
+      if (!res.ok) { hint.className = 'hint-msg err'; hint.textContent = res.error; return; }
+      row.value = res.value;
+      row.comment = document.getElementById('editComment').value.trim().replace(/^#\s*/, '');
+      row.raw = null;
+    }
+
+    closeModal('editModal');
+    renderAll();
+    if (state.testQuery) runLiveTest();
+    toast('Row updated (unsaved).');
+  }
+
+  function analyzeBulkText() {
+    const spec = getActiveSpec();
+    const f = state.files[spec.name];
+    const lines = document.getElementById('bulkText').value.split(/\r?\n/);
+    const tempRows = [...f.rows];
+    const valid = [];
+    const skipped = [];
+
+    for (const raw of lines) {
+      const trimmed = raw.trim();
+      if (!trimmed || trimmed.startsWith('#')) continue;
+      const parsed = parseSingleLine(trimmed, spec);
+      const res = validateEntry(parsed.value, spec, tempRows);
+      if (res.ok) {
+        const newRow = {
+          id: state.nextRowId++,
+          kind: 'entry',
+          raw: null,
+          value: res.value,
+          comment: parsed.comment,
+          domain: '',
+          ips: [],
+          isNew: true,
+        };
+        valid.push(newRow);
+        tempRows.push(newRow);
+      } else {
+        skipped.push(`${parsed.value}: ${res.error}`);
+      }
+    }
+    return { valid, skipped };
+  }
+
+  function applyRawIfNeeded(notify = true) {
+    const spec = getActiveSpec();
+    const f = state.files[spec.name];
+    f.rows = parseLines(document.getElementById('rawTextarea').value, spec);
+    state.rawMode = false;
+    renderAll();
+    if (notify) toast(`Staged raw edits for ${spec.name} (click Save Local).`);
+  }
+
+  /* =========================================================================
+   * 12. Settings Persistence & Modals
+   * ========================================================================= */
+  function saveGhConfig() {
+    localStorage.setItem('pmg_bl_gh_meta', JSON.stringify({
+      repo: state.repo, branch: state.branch, prefix: state.prefix, remember: state.remember,
+    }));
+    if (state.remember && state.token) {
+      localStorage.setItem('pmg_bl_gh_token', state.token);
+      sessionStorage.removeItem('pmg_bl_gh_token');
+    } else if (state.token) {
+      sessionStorage.setItem('pmg_bl_gh_token', state.token);
+      localStorage.removeItem('pmg_bl_gh_token');
+    } else {
+      localStorage.removeItem('pmg_bl_gh_token');
+      sessionStorage.removeItem('pmg_bl_gh_token');
+    }
+  }
+
+  function loadGhConfig() {
+    try {
+      const m = JSON.parse(localStorage.getItem('pmg_bl_gh_meta') || '{}');
+      if (m.repo) state.repo = m.repo;
+      if (m.branch) state.branch = m.branch;
+      if (typeof m.prefix === 'string') state.prefix = m.prefix;
+      state.remember = Boolean(m.remember);
+    } catch { /* ignore */ }
+    state.token = sessionStorage.getItem('pmg_bl_gh_token') || localStorage.getItem('pmg_bl_gh_token') || '';
+  }
+
+  function openSettingsModal() {
+    document.getElementById('setRepo').value = state.repo;
+    document.getElementById('setBranch').value = state.branch;
+    document.getElementById('setPrefix').value = state.prefix;
+    document.getElementById('setToken').value = state.token;
+    document.getElementById('setRemember').checked = state.remember;
+    openModal('settingsModal');
+  }
+
+  window.openModal = id => document.getElementById(id).classList.add('open');
+  window.closeModal = id => document.getElementById(id).classList.remove('open');
+
+  /* =========================================================================
+   * 13. Events & Boot
+   * ========================================================================= */
+  document.getElementById('btnPickFolder').addEventListener('click', pickLocalFolder);
+  document.getElementById('btnSwitchFolder').addEventListener('click', () => {
+    if (getDirtyFiles().length > 0 && !confirm('You have unsaved edits. Switch folder anyway?')) return;
+    pickLocalFolder();
+  });
+  document.getElementById('btnReconnectFolder').addEventListener('click', () => {
+    if (state.savedDirHandle) openDirectoryHandle(state.savedDirHandle);
+  });
+
+  document.getElementById('btnReload').addEventListener('click', async () => {
+    if (getDirtyFiles().length > 0 && !confirm('Discard unsaved edits and reload all 6 files from local disk?')) return;
+    await loadAllLocalFiles();
+    state.rawMode = false;
+    renderAll();
+    toast('Reloaded all 6 files from local disk.', 'ok');
+  });
+
+  document.getElementById('btnRaw').addEventListener('click', () => {
+    if (state.rawMode) applyRawIfNeeded(false);
+    else { state.rawMode = true; renderAll(); }
+  });
+  document.getElementById('btnApplyRaw').addEventListener('click', () => applyRawIfNeeded(true));
+  document.getElementById('btnCancelRaw').addEventListener('click', () => { state.rawMode = false; renderAll(); });
+
+  document.getElementById('btnSaveLocal').addEventListener('click', openSaveLocalModal);
+  document.getElementById('btnConfirmSaveLocal').addEventListener('click', async () => {
+    try {
+      await saveDirtyToLocal(true);
+      closeModal('saveLocalModal');
+    } catch (e) {
+      toast(`Failed to write local files: ${e.message}`, 'err');
+    }
+  });
+
+  document.getElementById('btnSyncGh').addEventListener('click', () => openSyncModal('push'));
+  document.getElementById('btnPullGh').addEventListener('click', () => openSyncModal('pull'));
+  document.getElementById('btnSyncExecute').addEventListener('click', executeSync);
+
+  document.getElementById('btnDiscard').addEventListener('click', () => {
+    const spec = getActiveSpec();
+    const f = state.files[spec.name];
+    if (!confirm(`Discard all unsaved edits in ${spec.name}?`)) return;
+    f.rows = parseLines(f.diskText || spec.defaultHeader, spec);
+    state.rawMode = false;
+    renderAll();
+    toast(`Discarded unsaved edits in ${spec.name}.`, 'warn');
+  });
+
+  document.getElementById('btnDownload').addEventListener('click', () => {
+    const spec = getActiveSpec();
+    const content = serializeFile(state.files[spec.name], spec);
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = spec.name;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  document.getElementById('btnAdd').addEventListener('click', addStandardEntry);
+  document.getElementById('addValue').addEventListener('keydown', e => { if (e.key === 'Enter') addStandardEntry(); });
+  document.getElementById('addComment').addEventListener('keydown', e => { if (e.key === 'Enter') addStandardEntry(); });
+  document.getElementById('btnAddBs').addEventListener('click', addBackscatterEntry);
+  document.getElementById('addBsIps').addEventListener('keydown', e => { if (e.key === 'Enter') addBackscatterEntry(); });
+
+  document.getElementById('testInput').addEventListener('input', e => { state.testQuery = e.target.value; runLiveTest(); });
+  document.getElementById('btnClearTest').addEventListener('click', () => {
+    state.testQuery = '';
+    document.getElementById('testInput').value = '';
+    runLiveTest();
+  });
+
+  document.getElementById('searchInput').addEventListener('input', e => { state.search = e.target.value; state.page = 1; renderTable(); });
+  document.getElementById('chkShowComments').addEventListener('change', e => { state.showComments = e.target.checked; state.page = 1; renderTable(); });
+  document.getElementById('filterType').addEventListener('change', e => { state.filterType = e.target.value; state.page = 1; renderTable(); });
+
+  document.getElementById('tableBody').addEventListener('click', e => {
+    const btn = e.target.closest('button[data-act]');
+    if (!btn) return;
+    handleTableAction(btn.dataset.act, Number(btn.dataset.id), Number(btn.dataset.ipIdx));
+  });
+
+  document.getElementById('btnEditSave').addEventListener('click', saveEditModal);
+
+  document.getElementById('btnBulkAdd').addEventListener('click', () => {
+    document.getElementById('bulkTitle').textContent = `Bulk Add to ${state.activeFile}`;
+    document.getElementById('bulkText').value = '';
+    document.getElementById('bulkPreview').textContent = '';
+    openModal('bulkModal');
+    setTimeout(() => document.getElementById('bulkText').focus(), 40);
+  });
+  document.getElementById('bulkText').addEventListener('input', () => {
+    const { valid, skipped } = analyzeBulkText();
+    const el = document.getElementById('bulkPreview');
+    el.className = skipped.length ? 'hint-msg warn' : 'hint-msg ok';
+    el.textContent = `${valid.length} valid to add` +
+      (skipped.length ? ` | ${skipped.length} skipped (${skipped.slice(0, 2).join('; ')}${skipped.length > 2 ? '...' : ''})` : '');
+  });
+  document.getElementById('btnBulkConfirm').addEventListener('click', () => {
+    const { valid, skipped } = analyzeBulkText();
+    if (valid.length === 0) { toast('No valid new entries found.', 'warn'); return; }
+    state.files[state.activeFile].rows.push(...valid);
+    closeModal('bulkModal');
+    renderAll();
+    toast(`Staged ${valid.length} entries${skipped.length ? ` (${skipped.length} skipped)` : ''}. Click Save Local.`, 'ok');
+  });
+
+  document.getElementById('btnGhSettings').addEventListener('click', openSettingsModal);
+  document.getElementById('btnSaveSettings').addEventListener('click', () => {
+    state.repo = document.getElementById('setRepo').value.trim() || 'MatrixEvo/email-spammers';
+    state.branch = document.getElementById('setBranch').value.trim() || 'main';
+    state.prefix = document.getElementById('setPrefix').value.trim();
+    state.token = document.getElementById('setToken').value.trim();
+    state.remember = document.getElementById('setRemember').checked;
+    saveGhConfig();
+    closeModal('settingsModal');
+    renderHeader();
+    toast('Saved GitHub sync settings.', 'ok');
+  });
+  document.getElementById('btnClearToken').addEventListener('click', () => {
+    state.token = '';
+    saveGhConfig();
+    document.getElementById('setToken').value = '';
+    toast('Cleared stored GitHub token.', 'warn');
+  });
+
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+      if (state.folderOpen && getDirtyFiles().length > 0) {
+        e.preventDefault();
+        openSaveLocalModal();
+      }
+    } else if (e.key === 'Escape') {
+      ['bulkModal', 'editModal', 'saveLocalModal', 'syncModal', 'settingsModal'].forEach(closeModal);
+    } else if (e.key === '/' && state.folderOpen && !state.rawMode) {
+      const tag = (document.activeElement?.tagName || '').toLowerCase();
+      if (!['input', 'textarea', 'select'].includes(tag)) {
+        e.preventDefault();
+        document.getElementById('searchInput').focus();
+      }
+    }
+  });
+
+  window.addEventListener('beforeunload', e => {
+    if (state.folderOpen && getDirtyFiles().length > 0) {
+      e.preventDefault();
+      e.returnValue = '';
+    }
+  });
+
+  // Boot
+  (async () => {
+    loadGhConfig();
+    renderHeader();
+
+    if (!window.showDirectoryPicker) {
+      document.getElementById('fsUnsupportedAlert').style.display = 'block';
+      document.getElementById('btnPickFolder').disabled = true;
+      return;
+    }
+
+    const saved = await loadSavedDirHandle();
+    if (saved) {
+      state.savedDirHandle = saved;
+      const btn = document.getElementById('btnReconnectFolder');
+      btn.textContent = `Reconnect "${saved.name}/"`;
+      btn.style.display = 'inline-flex';
+      document.getElementById('btnPickFolder').className = 'btn';
+      document.getElementById('btnPickFolder').textContent = 'Choose Another Folder';
+    }
+  })();
+})();
+</script>
+</body>
+</html>

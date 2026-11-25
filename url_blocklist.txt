@@ -14,4 +14,4 @@ ntzfmf\.com # ANA JP phishing landing (sucaisousou.com)
 aganshuodiao\.com # ANA JP phishing landing (rjhjcl.com)
 nb-wd\.com # ANA JP phishing landing (tenyale-lock.com)
 vodacious\.com # ANA JP phishing landing (shinelace.com)
-
+jiaduoneng\.com
