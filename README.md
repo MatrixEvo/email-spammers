@@ -124,11 +124,11 @@ All **6** blocklist files are processed by `sanitize_list_file()` before matchin
 
 ---
 
-## Syncing Blocklists (`get.sh`)
+## Syncing Blocklists (`getnrd.sh` & `update.sh`)
 
-`get.sh` downloads all 6 files atomically to `/tmp`, verifies each downloaded file is non-empty (`-s`), and replaces the destination file:
+`getnrd.sh` auto-detects its own directory (`DEST_DIR`, e.g. `/ips1/blocklists` on PMG), downloads all 6 files with cache-busting to same-filesystem temp files (`.<file>.tmp.$$`), verifies each file is non-empty and not an HTML error page, and atomically swaps via `mv -f`:
 
-- **Production path on PMG:** `/ips1/blocklists/` (update `DEST_DIR="/ips1/blocklists"` in `get.sh` when deploying on PMG nodes)
+- **Production path on PMG:** `/ips1/blocklists/getnrd.sh` (deploy & run across all 8 PMGs via `./update.sh`)
 - **Source repository:** `https://raw.githubusercontent.com/MatrixEvo/email-spammers/refs/heads/main/`
   - `gmail_spammers.txt`
   - `spammers.txt`

@@ -1,41 +1,84 @@
 #!/usr/bin/env bash
 
-# /ips1/blocklists/getnrd.sh
+# Atomically sync all 6 PMG blocklists from MatrixEvo/email-spammers into DEST_DIR.
+# Auto-detects DEST_DIR from this script's own directory (e.g. /ips1/blocklists on PMG),
+# stages downloads in DEST_DIR/.<file>.tmp.$$ for same-filesystem atomic mv -f,
+# busts GitHub CDN cache, and exits non-zero if any file fails.
 
-#DEST_DIR="/ips1/blocklists"
-DEST_DIR="/mnt/c/Users/8067-C1908/Documents/code/scripts/Proxmox/pmg/blocklist"
-TMP_DIR="/tmp"
+set -uo pipefail
 
-# Function to download and replace files safely
+readonly DEST_DIR="${DEST_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
+readonly BASE_URL="${BASE_URL:-https://raw.githubusercontent.com/MatrixEvo/email-spammers/refs/heads/main}"
+readonly CACHE_BUST="$(date +%s)"
+
+readonly -a FILES=(
+    "gmail_spammers.txt"
+    "spammers.txt"
+    "ip_blocklist.txt"
+    "spf_softfail_strict.txt"
+    "backscatter_protection.txt"
+    "url_blocklist.txt"
+)
+
+exec 200>"/tmp/pmg_getnrd.lock"
+if ! flock -n 200; then
+    echo "Another instance of getnrd.sh is already running. Exiting." >&2
+    exit 1
+fi
+
+if ! mkdir -p "${DEST_DIR}"; then
+    echo "Error: Destination directory does not exist and could not be created: ${DEST_DIR}" >&2
+    exit 1
+fi
+
+ok=0
+fail=0
+
 update_blocklist() {
-    local url="$1"
-    local filename="$2"
-    local tmp_file="$TMP_DIR/$filename"
-    local dest_file="$DEST_DIR/$filename"
+    local filename="$1"
+    local url="${BASE_URL}/${filename}?t=${CACHE_BUST}"
+    local tmp_file="${DEST_DIR}/.${filename}.tmp.$$"
+    local dest_file="${DEST_DIR}/${filename}"
 
-    # Download the file to the temporary directory
-    # -q stops the output. -O sets the output file.
-    if wget -q "$url" -O "$tmp_file"; then
+    if ! wget --timeout=15 --tries=2 --no-cache -q "${url}" -O "${tmp_file}"; then
+        echo "Error: Could not download ${filename}." >&2
+        rm -f "${tmp_file}"
+        fail=$((fail + 1))
+        return 1
+    fi
 
-        # Check if the file size is greater than zero
-        if [ -s "$tmp_file" ]; then
-            # Replace the old file with the new file
-            mv "$tmp_file" "$dest_file"
-            echo "Success: The system updated $filename."
-        else
-            echo "Error: The downloaded file $filename is empty. The system did not replace the file."
-            rm -f "$tmp_file"
-        fi
+    if [[ ! -s "${tmp_file}" ]]; then
+        echo "Error: Downloaded ${filename} is empty; keeping existing file." >&2
+        rm -f "${tmp_file}"
+        fail=$((fail + 1))
+        return 1
+    fi
+
+    if head -n 5 "${tmp_file}" | grep -qiE '^[[:space:]]*(<!DOCTYPE html|<html)'; then
+        echo "Error: Downloaded ${filename} looks like an HTML error page; keeping existing file." >&2
+        rm -f "${tmp_file}"
+        fail=$((fail + 1))
+        return 1
+    fi
+
+    sed -i 's/\r$//' "${tmp_file}"
+    chmod 644 "${tmp_file}"
+
+    if mv -f "${tmp_file}" "${dest_file}"; then
+        echo "Success: Updated ${dest_file}."
+        ok=$((ok + 1))
+        return 0
     else
-        echo "Error: The system could not download $filename."
-        rm -f "$tmp_file"
+        echo "Error: Failed to move ${tmp_file} -> ${dest_file}." >&2
+        rm -f "${tmp_file}"
+        fail=$((fail + 1))
+        return 1
     fi
 }
 
-# The system will process each blocklist file
-update_blocklist "https://raw.githubusercontent.com/MatrixEvo/email-spammers/refs/heads/main/gmail_spammers.txt" "gmail_spammers.txt"
-update_blocklist "https://raw.githubusercontent.com/MatrixEvo/email-spammers/refs/heads/main/spammers.txt" "spammers.txt"
-update_blocklist "https://raw.githubusercontent.com/MatrixEvo/email-spammers/refs/heads/main/ip_blocklist.txt" "ip_blocklist.txt"
-update_blocklist "https://raw.githubusercontent.com/MatrixEvo/email-spammers/refs/heads/main/spf_softfail_strict.txt" "spf_softfail_strict.txt"
-update_blocklist "https://raw.githubusercontent.com/MatrixEvo/email-spammers/refs/heads/main/backscatter_protection.txt" "backscatter_protection.txt"
-update_blocklist "https://raw.githubusercontent.com/MatrixEvo/email-spammers/refs/heads/main/url_blocklist.txt" "url_blocklist.txt"
+for f in "${FILES[@]}"; do
+    update_blocklist "${f}" || true
+done
+
+echo "Summary: ${ok} updated, ${fail} failed (dir: ${DEST_DIR})."
+[[ ${fail} -eq 0 ]]
