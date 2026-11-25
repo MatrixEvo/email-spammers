@@ -25,4 +25,7 @@ ihongpan\.net # JP Amazon phishing wave (16-hex subdomain)
 appvideoreview\.net # JP Amazon phishing wave (16-hex subdomain)
 goalonline\.net # JP Amazon phishing wave (16-hex subdomain)
 hebiyukang\.net # JP Amazon phishing wave (16-hex subdomain)
+security-server-stat-1s6u\.bolt\.host # mailbox expiry phishing (wewingames.com)
+sacurejp\.online # password expiry phishing (oxiitek.com)
+seamaninvestments\.co\.ke # access expiring phishing (mosolyognifogok.hu)
 jiaduoneng\.com
