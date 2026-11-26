@@ -1131,3 +1131,4 @@ smttp10@hsnm\.com\.my # compromised mailbox sending "<domain> IT SUPPORT" phishi
 user@centralconsulting\.az # compromised mailbox sending seamaninvestments.co.ke phishing (8x)
 ryadtech\.com\.my
 speed-network\.hk
+webhostbox\.net
