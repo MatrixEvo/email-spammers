@@ -1113,4 +1113,16 @@ zhapp-zcw.com # forged self-domain "Via eSign" phishing (66x)
 dyunadominac.com # spoofed "Docusign via Docusign" phishing
 easterntirnes.cc # typosquat SOA/invoice phishing
 szqfw.net # JP hex-subdomain phishing botnet (cr2pjuv0.szqfw.net)
+sovragen.com # spoofed "<domain>~Payroll" salary increment phishing (49x)
+teleclosing.com # spoofed recipient-domain password/account re-verify phishing (135x)
+saderrat.com # spoofed "Mailcenter <domain>" password phishing (45x)
+u-titlesagency.com # spoofed "cPanel on <domain>" password phishing (26x)
+baikeee.com # spoofed "Webmail <domain>" verification phishing (13x)
+aytcac.com # fake "Salary Increment Payslip" phishing (8x)
+yidiangaoxiao.com # spoofed recipient-domain verification phishing
+carozplus.com # spoofed recipient-domain Chinese warning phishing (20x)
+adminoecmal.com # spoofed "oecmal.com Mail System Delivery" phishing (16x)
+hebrador-pl.com # spoofed "<domain> mail support" phishing (15x)
+webmaster@okamotonet\.co\.jp # compromised mailbox sending "Security Update" domain-spoof phishing (417x)
+obchod@chdtrebic\.cz # compromised mailbox sending Malay domain-spoof phishing (28x)
 ryadtech.com.my

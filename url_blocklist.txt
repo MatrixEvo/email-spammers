@@ -36,3 +36,5 @@ aiproducts\.co\.in # DocuSend credential phishing
 security-server-stat-vdpy\.bolt\.host # DocuSign credential phishing (shinsung-textile.com)
 blank-project-setup-6650\.bolt\.host # DocuSign credential phishing (shinsung-textile.com)
 panicirc\.net # JP hex-subdomain phishing landing (szqfw.net)
+sucesupa\.org\.br # Payroll salary-increment phishing landing (sovragen.com)
+coiinokj\.pro # EDP/payroll phishing kit landing (sovragen.com)
