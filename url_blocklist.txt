@@ -35,3 +35,4 @@ documentt\.top # DocuSign credential phishing (horvathroofing.net)
 aiproducts\.co\.in # DocuSend credential phishing
 security-server-stat-vdpy\.bolt\.host # DocuSign credential phishing (shinsung-textile.com)
 blank-project-setup-6650\.bolt\.host # DocuSign credential phishing (shinsung-textile.com)
+panicirc\.net # JP hex-subdomain phishing landing (szqfw.net)

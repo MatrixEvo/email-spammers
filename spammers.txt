@@ -1112,4 +1112,5 @@ afnidah@ryadtech\.com\.my # compromised mailbox sending Docu-sign phishing (1,07
 zhapp-zcw.com # forged self-domain "Via eSign" phishing (66x)
 dyunadominac.com # spoofed "Docusign via Docusign" phishing
 easterntirnes.cc # typosquat SOA/invoice phishing
+szqfw.net # JP hex-subdomain phishing botnet (cr2pjuv0.szqfw.net)
 ryadtech.com.my
