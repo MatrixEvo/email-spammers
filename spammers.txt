@@ -1108,4 +1108,8 @@ njklj.com
 dlxycb.com
 simplywall.st
 pc-ledongsports.com
+afnidah@ryadtech\.com\.my # compromised mailbox sending Docu-sign phishing (1,078x)
+zhapp-zcw.com # forged self-domain "Via eSign" phishing (66x)
+dyunadominac.com # spoofed "Docusign via Docusign" phishing
+easterntirnes.cc # typosquat SOA/invoice phishing
 ryadtech.com.my

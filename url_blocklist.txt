@@ -29,3 +29,9 @@ security-server-stat-1s6u\.bolt\.host # mailbox expiry phishing (wewingames.com)
 sacurejp\.online # password expiry phishing (oxiitek.com)
 seamaninvestments\.co\.ke # access expiring phishing (mosolyognifogok.hu)
 jiaduoneng\.com
+vistejet\.com # Docu-SIGN credential phishing (bearstatehomeinspection.com)
+partyinvitationnn\.vu # DocuSign/Adobe credential phishing (halamaconsulting.com)
+documentt\.top # DocuSign credential phishing (horvathroofing.net)
+aiproducts\.co\.in # DocuSend credential phishing
+security-server-stat-vdpy\.bolt\.host # DocuSign credential phishing (shinsung-textile.com)
+blank-project-setup-6650\.bolt\.host # DocuSign credential phishing (shinsung-textile.com)
