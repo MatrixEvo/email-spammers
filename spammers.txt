@@ -1087,6 +1087,11 @@ jonetceh-in.com # expiration notice credential phishing (44x)
 wewingames.com # fake mailbox expiry/bounce phishing
 apollodry.sbs # DHL credential phishing
 dekwetoydrift.biz # spoofed-domain credential phishing
+cermadi.info # Chinese password-expiry phishing (Postmaster spoof)
+carnivalsensation.com # spoofed "<domain> IT" Chinese credential phishing (28x)
+hammbotool.com # spoofed "<domain>-IT" credential phishing (44x)
+servicecentersupportservice.sbs # spoofed "<domain> IT" Base64 credential phishing
+tpp.su # spoofed "<domain> 服务台" Chinese credential phishing
 mzllera.com
 szsaykj.com
 gzxhcs.com
