@@ -1125,4 +1125,8 @@ adminoecmal.com # spoofed "oecmal.com Mail System Delivery" phishing (16x)
 hebrador-pl.com # spoofed "<domain> mail support" phishing (15x)
 webmaster@okamotonet\.co\.jp # compromised mailbox sending "Security Update" domain-spoof phishing (417x)
 obchod@chdtrebic\.cz # compromised mailbox sending Malay domain-spoof phishing (28x)
-ryadtech.com.my
+vivacp.cam # RTF exploit malware sender (Exploit.Rtf.Obfuscated.32)
+update@holdinghome\.com\.bo # compromised mailbox sending medium.com/#rcpt phishing (3x)
+smttp10@hsnm\.com\.my # compromised mailbox sending "<domain> IT SUPPORT" phishing (2x)
+user@centralconsulting\.az # compromised mailbox sending seamaninvestments.co.ke phishing (8x)
+ryadtech\.com\.my

@@ -38,3 +38,6 @@ blank-project-setup-6650\.bolt\.host # DocuSign credential phishing (shinsung-te
 panicirc\.net # JP hex-subdomain phishing landing (szqfw.net)
 sucesupa\.org\.br # Payroll salary-increment phishing landing (sovragen.com)
 coiinokj\.pro # EDP/payroll phishing kit landing (sovragen.com)
+infomacplug\.top # Maybank2E GIRO phishing landing (3x)
+molestruct\.quest # HSBC DuitNow phishing landing (4x)
+sharemyhtml\.com # Credential phishing landing (u-titlesagency.com)
