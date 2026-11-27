@@ -1129,6 +1129,36 @@ vivacp.cam # RTF exploit malware sender (Exploit.Rtf.Obfuscated.32)
 update@holdinghome\.com\.bo # compromised mailbox sending medium.com/#rcpt phishing (3x)
 smttp10@hsnm\.com\.my # compromised mailbox sending "<domain> IT SUPPORT" phishing (2x)
 user@centralconsulting\.az # compromised mailbox sending seamaninvestments.co.ke phishing (8x)
+xahncmjy.com # Dai-ichi Life JP phishing (30x)
+whdyzx.com # Dai-ichi Life JP phishing (24x)
+vmengf.com # Dai-ichi Life JP phishing (19x)
+xzhulan.com # Dai-ichi Life JP phishing (15x)
+goodenv.net # JP rotating-subdomain phishing botnet (11x)
+yinxinzs.com # Dai-ichi Life JP phishing (10x)
+changliang.net # JP rotating-subdomain phishing botnet (7x)
+holychildschool.net # JP rotating-subdomain phishing botnet (7x)
+ikemachi.net # JP rotating-subdomain phishing botnet (5x)
+ynyyfs.com # Dai-ichi Life JP phishing (5x)
+hb-dz.com # Dai-ichi Life JP phishing (4x)
+hpshe.com # Dai-ichi Life JP phishing (3x)
+usecst.com # Dai-ichi Life JP phishing (3x)
+h5-legend.com # Dai-ichi Life JP phishing (3x)
+yjpcy.com # Dai-ichi Life JP phishing (2x)
+huifenggc.com # Dai-ichi Life JP phishing (2x)
+mjmei.com # Dai-ichi Life JP phishing (2x)
+jingtiandongdi.com # Dai-ichi Life JP phishing (2x)
+hainantiantian.com # Dai-ichi Life JP phishing (2x)
+zhksjx.com # Dai-ichi Life JP phishing
+hengshan2015.com # Dai-ichi Life JP phishing
+gaomianwa.com # Dai-ichi Life JP phishing
+readsite.info # spoofed "<domain> IT" Chinese credential phishing
+571069.com # spoofed self-service phishing (trackingservice.monday.com)
+nb@phenixkrep\.ru # compromised mailbox sending reconciliation phishing (3x)
+shore@deaks\.com\.tr # compromised mailbox sending Prupartner verification phishing
+esra@aygunozen\.com # compromised mailbox sending Malay domain-spoof phishing
+presidente@freguesiadeabiul\.pt # compromised mailbox sending Malay domain-spoof phishing
+info@mhsystem\.co\.jp # compromised mailbox sending "13 Messages Are Waiting" phishing
+joseph.davis@tienda\.management # compromised mailbox sending Subcontractor phishing (ashwoodtimber.co.uk)
 ryadtech\.com\.my
 speed-network\.hk
 webhostbox\.net

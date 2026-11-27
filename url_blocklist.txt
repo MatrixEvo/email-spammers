@@ -41,3 +41,11 @@ coiinokj\.pro # EDP/payroll phishing kit landing (sovragen.com)
 infomacplug\.top # Maybank2E GIRO phishing landing (3x)
 molestruct\.quest # HSBC DuitNow phishing landing (4x)
 sharemyhtml\.com # Credential phishing landing (u-titlesagency.com)
+chaykovskiy-snt-3\.ru # Prupartner verification phishing landing (deaks.com.tr)
+plashiki\.com # Finance Dept pending messages phishing landing
+luxylv\.com # Chinese IT account reactivation phishing landing (readsite.info)
+randycampbell\.com # DocSign salary review phishing landing
+rooseveltmoss\.com # Server sync credential phishing landing (mhsystem.co.jp)
+ashwoodtimber\.co\.uk # Subcontractor agreement phishing landing (tienda.management)
+calmorbit\.top # MySSA.gov payment policy phishing landing
+flat-band-3c4a\.km221060\.workers\.dev # Meta Content Moderation phishing landing
