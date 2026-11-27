@@ -49,3 +49,4 @@ rooseveltmoss\.com # Server sync credential phishing landing (mhsystem.co.jp)
 ashwoodtimber\.co\.uk # Subcontractor agreement phishing landing (tienda.management)
 calmorbit\.top # MySSA.gov payment policy phishing landing
 flat-band-3c4a\.km221060\.workers\.dev # Meta Content Moderation phishing landing
+amazefi\.com
