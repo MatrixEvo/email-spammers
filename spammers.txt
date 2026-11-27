@@ -1,6 +1,6 @@
 # Blocked spammer domains and email addresses (ERE regex, case-insensitive)
 # Format: one domain (auto-matches main domain + all subdomains) or full email regex per line; '#' comments supported
-.*\.akfsktj.cn
+akfsktj.cn
 interactivebrokers@.*
 jinjiabao.net
 nextpathtechnologies.info
@@ -16,6 +16,7 @@ acrel-electric.com
 jujutop.com
 xglabs.com.my
 zsszubin.pl
+julwai.com
 clggc.com
 cmsvmqxmy.com
 datapaqtechnologies.com
